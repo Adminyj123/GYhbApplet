@@ -1,0 +1,4 @@
+com\gyhb\controller\HelloController.class
+com\gyhb\Application.class
+META-INF\spring-configuration-metadata.json
+com\gyhb\config\Swagger2.class

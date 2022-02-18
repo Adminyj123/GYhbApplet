@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.hikari.connection-timeout",
+      "type": "java.lang.String",
+      "description": "Description for spring.hikari.connection-timeout."
+  }
+] }
