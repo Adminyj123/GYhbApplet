@@ -31,7 +31,7 @@ public class HelloController {
 
         List<AppletUser> res= appletUserService.queryall();
 
-        return IMOOCJSONResult.ok(res);
+        return IMOOCJSONResult.ok(res) ;
     }
 
 }
