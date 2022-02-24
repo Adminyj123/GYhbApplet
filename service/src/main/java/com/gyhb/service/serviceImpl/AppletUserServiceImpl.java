@@ -3,6 +3,7 @@ package com.gyhb.service.serviceImpl;
 import com.gyhb.entity.Appletpassward;
 import com.gyhb.entity.Appletuser;
 import com.gyhb.entity.bo.UserBO;
+import com.gyhb.entity.bo.UserVo;
 import com.gyhb.mapper.AppletpasswardMapper;
 import com.gyhb.mapper.AppletuserMapper;
 import com.gyhb.service.AppletUserService;
@@ -50,24 +51,21 @@ public class AppletUserServiceImpl implements AppletUserService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public Appletuser createUser(UserBO userBO) {
+    public Appletuser createUser(UserVo userBO) {
         //生产id
         String userId = sid.nextShort();
 
 
         //密码表
-        Appletpassward password = new Appletpassward();
+//        Appletpassward password = new Appletpassward();
         //用户表
         Appletuser user = new Appletuser();
         //设置用户表的id
         user.setId(userId);
+        user.setWechatnumber(userBO.getWechatNumber());
 
         try {
             String pass = MD5Utils.getMD5Str(userBO.getPassword());
-            //密码表的id与用户表的id为同一个
-            password.setId(userId);
-            //设置密码表的密码     使用MD5 加密
-            password.setPassward(pass);
             user.setPassword(pass);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,24 +74,24 @@ public class AppletUserServiceImpl implements AppletUserService {
 
         //用户信息
         //设置用户表的用户名
-        user.setName(userBO.getName());
-        //设置用户表的年龄
-        user.setAge(userBO.getAge());
-        user.setSex(userBO.getSex());
-        user.setIdcard(userBO.getIdCard());
-        user.setNativeplace(userBO.getNativePlace());
-        user.setNickname(userBO.getNickname());
-        user.setWechatnumber(userBO.getWechatNumber());
-        user.setTelephone(userBO.getTelephone());
-        user.setAvatarurl(userBO.getAvatarUrl());
-        user.setDefaulturl("");
-        user.setValidflag("0");
-        user.setFlag("0");
-        user.setCreatedTime(new Date());
-        user.setUpdatedTime(new Date());
+//        user.setName(userBO.getName());
+//        //设置用户表的年龄
+//        user.setAge(userBO.getAge());
+//        user.setSex(userBO.getSex());
+//        user.setIdcard(userBO.getIdCard());
+//        user.setNativeplace(userBO.getNativePlace());
+//        user.setNickname(userBO.getNickname());
+//        user.setWechatnumber(userBO.getWechatNumber());
+//        user.setTelephone(userBO.getTelephone());
+//        user.setAvatarurl(userBO.getAvatarUrl());
+//        user.setDefaulturl("");
+//        user.setValidflag("0");
+//        user.setFlag("0");
+//        user.setCreatedTime(new Date());
+//        user.setUpdatedTime(new Date());
 
         appletUserMapper.insert(user);
-        appletPasswardMapper.insert(password);
+//        appletPasswardMapper.insert(password);
 
         return user;
     }
@@ -106,7 +104,7 @@ public class AppletUserServiceImpl implements AppletUserService {
         Example userExample = new Example(Appletuser.class);
         Example.Criteria userCriteria = userExample.createCriteria();
 
-        userCriteria.andEqualTo("WechatNumber", wechatNumber);
+        userCriteria.andEqualTo("wechatnumber", wechatNumber);
         userCriteria.andEqualTo("password", password);
 
         Appletuser result = appletUserMapper.selectOneByExample(userExample);

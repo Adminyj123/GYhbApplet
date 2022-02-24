@@ -2,6 +2,7 @@ package com.gyhb.service;
 
 import com.gyhb.entity.Appletuser;
 import com.gyhb.entity.bo.UserBO;
+import com.gyhb.entity.bo.UserVo;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface AppletUserService  {
     /**
      * 注册微信用户
      */
-    public Appletuser createUser(UserBO userBO);
+    public Appletuser createUser(UserVo userBO);
 
 
     /**
