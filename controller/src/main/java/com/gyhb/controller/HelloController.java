@@ -1,6 +1,6 @@
 package com.gyhb.controller;
 
-import com.gyhb.entity.AppletUser;
+import com.gyhb.entity.Appletuser;
 import com.gyhb.service.AppletUserService;
 import com.gyhb.utils.utils.IMOOCJSONResult;
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ public class HelloController {
     @GetMapping("/queryuser")
     public IMOOCJSONResult queryuser(){
 
-        List<AppletUser> res= appletUserService.queryall();
+        List<Appletuser> res= appletUserService.queryall();
 
         return IMOOCJSONResult.ok(res) ;
     }
