@@ -2,6 +2,7 @@ package com.gyhb.controller;
 
 import com.gyhb.entity.Appletuser;
 import com.gyhb.entity.bo.UserBO;
+import com.gyhb.entity.bo.UserVo;
 import com.gyhb.service.AppletUserService;
 import com.gyhb.utils.utils.CookieUtils;
 import com.gyhb.utils.utils.IMOOCJSONResult;
@@ -45,7 +46,7 @@ public class PassportController {
 
     @ApiOperation(value = "微信用户注册", notes = "微信用户注册", httpMethod = "POST")
     @PostMapping("/regist")
-    public IMOOCJSONResult regist(@RequestBody UserBO userBO,
+    public IMOOCJSONResult regist(@RequestBody UserVo userBO,
                                   HttpServletRequest request,
                                   HttpServletResponse response) {
 
@@ -77,19 +78,19 @@ public class PassportController {
         }
 
         // 4. 实现注册
-//        AppletUser userResult = userService.createUser(userBO);
+        Appletuser userResult = userService.createUser(userBO);
 
-//        userResult = setNullProperty(userResult);
-//
-//        CookieUtils.setCookie(request, response, "user",
-//                JsonUtils.objectToJson(userResult), true);
+        userResult = setNullProperty(userResult);
+
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userResult), true);
 
         return IMOOCJSONResult.ok();
     }
 
     @ApiOperation(value = "用户登录", notes = "用户登录", httpMethod = "POST")
     @PostMapping("/login")
-    public IMOOCJSONResult login(@RequestBody UserBO userBO,
+    public IMOOCJSONResult login(@RequestBody UserVo userBO,
                                  HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
