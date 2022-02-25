@@ -6,7 +6,7 @@ import com.gyhb.entity.bo.UserVo;
 
 import java.util.List;
 
-public interface AppletUserService  {
+public interface AppletUserService {
 
     /**
      * 判断微信号是否存在
@@ -20,10 +20,9 @@ public interface AppletUserService  {
 
 
     /**
-     * 测试用的
-     * 查询所有用户
+     * 查询微信用户信息
      */
-    public List<Appletuser> queryall();
+    public Appletuser queryByWx(String wechatNumber);
 
     /**
      * 登录查询用户

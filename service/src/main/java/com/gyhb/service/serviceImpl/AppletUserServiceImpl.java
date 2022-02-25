@@ -114,7 +114,11 @@ public class AppletUserServiceImpl implements AppletUserService {
 
 
     @Override
-    public List<Appletuser> queryall() {
-        return appletUserMapper.selectAll();
+    public Appletuser queryByWx(String wechatNumber) {
+        Example userExample = new Example(Appletuser.class);
+        Example.Criteria userCriteria = userExample.createCriteria();
+
+        userCriteria.andEqualTo("wechatnumber", wechatNumber);
+        return appletUserMapper.selectOneByExample(userExample);
     }
 }
