@@ -7,8 +7,8 @@
     -->
     <id column="Id" property="id" jdbcType="VARCHAR" />
     <result column="Name" property="name" jdbcType="VARCHAR" />
-    <result column="Age" property="age" jdbcType="VARCHAR" />
-    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="INTEGER" />
+    <result column="Sex" property="sex" jdbcType="INTEGER" />
     <result column="IDcard" property="idcard" jdbcType="VARCHAR" />
     <result column="NativePlace" property="nativeplace" jdbcType="VARCHAR" />
     <result column="Nickname" property="nickname" jdbcType="VARCHAR" />
@@ -24,6 +24,7 @@
     <result column="AddInfo2" property="addinfo2" jdbcType="VARCHAR" />
     <result column="AddInfo3" property="addinfo3" jdbcType="VARCHAR" />
     <result column="AddInfo4" property="addinfo4" jdbcType="VARCHAR" />
+    <result column="AddInfo5" property="addinfo5" jdbcType="VARCHAR" />
     <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
     <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
   </resultMap>

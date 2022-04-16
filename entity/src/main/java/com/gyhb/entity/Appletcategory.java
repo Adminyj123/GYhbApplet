@@ -355,4 +355,31 @@ public class Appletcategory implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+
+    public Appletcategory(String parentcode, String code, String name) {
+        this.parentcode = parentcode;
+        this.code = code;
+        this.name = name;
+    }
+
+    public Appletcategory(String id, String parentcode, String code, String name, String flag, String validflag, BigDecimal price, String addinfo0, String addinfo1, String addinfo2, String addinfo3, String addinfo4, Date updatedTime, Date createTime) {
+        this.id = id;
+        this.parentcode = parentcode;
+        this.code = code;
+        this.name = name;
+        this.flag = flag;
+        this.validflag = validflag;
+        this.price = price;
+        this.addinfo0 = addinfo0;
+        this.addinfo1 = addinfo1;
+        this.addinfo2 = addinfo2;
+        this.addinfo3 = addinfo3;
+        this.addinfo4 = addinfo4;
+        this.updatedTime = updatedTime;
+        this.createTime = createTime;
+    }
+
+    public Appletcategory() {
+    }
 }

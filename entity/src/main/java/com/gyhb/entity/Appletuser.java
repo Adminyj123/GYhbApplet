@@ -24,13 +24,13 @@ public class Appletuser {
      * 年龄 年龄
      */
     @Column(name = "Age")
-    private String age;
+    private Integer age;
 
     /**
      * 性别 性别  0：男   1：女
      */
     @Column(name = "Sex")
-    private String sex;
+    private Integer sex;
 
     /**
      * 身份证号 身份证号
@@ -123,6 +123,12 @@ public class Appletuser {
     private String addinfo4;
 
     /**
+     * 预留字段4 预留字段4
+     */
+    @Column(name = "AddInfo5")
+    private String addinfo5;
+
+    /**
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
@@ -175,7 +181,7 @@ public class Appletuser {
      *
      * @return Age - 年龄 年龄
      */
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -184,7 +190,7 @@ public class Appletuser {
      *
      * @param age 年龄 年龄
      */
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -193,7 +199,7 @@ public class Appletuser {
      *
      * @return Sex - 性别 性别  0：男   1：女
      */
-    public String getSex() {
+    public Integer getSex() {
         return sex;
     }
 
@@ -202,7 +208,7 @@ public class Appletuser {
      *
      * @param sex 性别 性别  0：男   1：女
      */
-    public void setSex(String sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -510,5 +516,13 @@ public class Appletuser {
      */
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public String getAddinfo5() {
+        return addinfo5;
+    }
+
+    public void setAddinfo5(String addinfo5) {
+        this.addinfo5 = addinfo5;
     }
 }

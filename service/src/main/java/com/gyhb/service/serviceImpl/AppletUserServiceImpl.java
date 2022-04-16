@@ -1,13 +1,15 @@
 package com.gyhb.service.serviceImpl;
 
-import com.gyhb.entity.Appletpassward;
+import com.alibaba.fastjson.JSONObject;
 import com.gyhb.entity.Appletuser;
-import com.gyhb.entity.bo.UserBO;
+import com.gyhb.entity.bo.UserInfoVo;
 import com.gyhb.entity.bo.UserVo;
 import com.gyhb.mapper.AppletpasswardMapper;
 import com.gyhb.mapper.AppletuserMapper;
 import com.gyhb.service.AppletUserService;
+import com.gyhb.utils.utils.JsonUtils;
 import com.gyhb.utils.utils.MD5Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class AppletUserServiceImpl implements AppletUserService {
@@ -29,6 +30,7 @@ public class AppletUserServiceImpl implements AppletUserService {
 
     @Autowired
     private Sid sid;
+
 
     /**
      * 根据微信号查询数据
@@ -112,7 +114,53 @@ public class AppletUserServiceImpl implements AppletUserService {
         return result;
     }
 
+    @Override
+    public Appletuser addUser(String res) {
+        if(StringUtils.isNotBlank(res)){
+            UserInfoVo userInfo = JsonUtils.jsonToPojo(res,UserInfoVo.class);
 
+            Appletuser appletuser = new Appletuser();
+            appletuser.setId(sid.nextShort());
+            appletuser.setNickname(userInfo.getNickName());
+            appletuser.setWechatnumber(userInfo.getWatermark().getAppid());
+            appletuser.setSex(userInfo.getGender());
+            appletuser.setAvatarurl(userInfo.getAvatarUrl());
+            //国家
+            appletuser.setAddinfo0(userInfo.getCountry());
+            //城市
+            appletuser.setAddinfo1(userInfo.getCity());
+            //省份
+            appletuser.setAddinfo2(userInfo.getProvince());
+//            appletuser.setAddinfo3(userInfo.getUnionId());
+            appletuser.setAddinfo4(userInfo.getWatermark().getAppid());
+            appletuser.setAddinfo5(userInfo.getWatermark().getTimestamp());
+            appletuser.setValidflag("0");
+            appletuser.setFlag("0");
+            appletuser.setCreatedTime(new Date());
+
+            appletUserMapper.insert(appletuser);
+            return appletuser;
+        }else{
+            return new Appletuser();
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public Appletuser updateUserFace(String userId, String faceUrl) {
+        Appletuser updateUser = new Appletuser();
+        updateUser.setId(userId);
+        updateUser.setAvatarurl(faceUrl);
+        updateUser.setUpdatedTime(new Date());
+
+        appletUserMapper.updateByPrimaryKeySelective(updateUser);
+
+        return appletUserMapper.selectByPrimaryKey(userId);
+
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Appletuser queryByWx(String wechatNumber) {
         Example userExample = new Example(Appletuser.class);

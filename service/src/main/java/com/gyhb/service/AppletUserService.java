@@ -1,10 +1,7 @@
 package com.gyhb.service;
 
 import com.gyhb.entity.Appletuser;
-import com.gyhb.entity.bo.UserBO;
 import com.gyhb.entity.bo.UserVo;
-
-import java.util.List;
 
 public interface AppletUserService {
 
@@ -28,4 +25,17 @@ public interface AppletUserService {
      * 登录查询用户
      */
     Appletuser queryUserForLogin(String wechatNumber, String md5Str);
+
+    /**
+     * 登录查询用户
+     */
+    public  Appletuser addUser(String res);
+
+    /**
+     * 用户头像更新
+     * @param userId
+     * @param faceUrl
+     * @return
+     */
+    public Appletuser updateUserFace(String userId, String faceUrl);
 }

@@ -18,4 +18,61 @@
     <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <resultMap id="CategoryClassify" type="com.gyhb.entity.bo.CategoryVo" >
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <collection property="Appletcategory" column="code" select="com.gyhb.mapper.AppletcategoryMapper.findAllByCode"/>
+  </resultMap>
+
+  <select id="queryClassify"  resultMap="CategoryClassify"  >
+    SELECT
+      p.`Code` AS code,
+      p.`Name` AS name
+    FROM
+      AppletParentCategory p
+    WHERE
+      p.Validflag = "0"
+    GROUP BY
+      p.`Code`,
+      p.`Name`
+    ORDER BY
+      p.`Code`,
+      p.`Name`
+
+  </select>
+
+<!--  <select id="queryClassify"  resultMap="CategoryClassify"  >-->
+<!--    SELECT-->
+<!--      p.`Code` AS Pcode,-->
+<!--      p.`Name` AS Pname,-->
+<!--      c.ParentCode AS parentcode,-->
+<!--      c.CODE AS code,-->
+<!--      c.NAME AS cname-->
+<!--    FROM-->
+<!--      AppletParentCategory p-->
+<!--        inner JOIN AppletCategory c ON c.ParentCode = p.`Code`-->
+<!--    WHERE-->
+<!--      c.validflag = "0"-->
+<!--      AND p.Validflag = "0"-->
+<!--    GROUP BY-->
+<!--      p.`Code`,-->
+<!--      p.`Name`,-->
+<!--      c.ParentCode,-->
+<!--      c.CODE,-->
+<!--      c.NAME-->
+<!--    ORDER BY-->
+<!--      p.`Code`,-->
+<!--      p.`Name`,-->
+<!--      c.ParentCode,-->
+<!--      c.CODE,-->
+<!--      c.NAME-->
+
+<!--  </select>-->
+
+
+
+
+
+
 </mapper>
