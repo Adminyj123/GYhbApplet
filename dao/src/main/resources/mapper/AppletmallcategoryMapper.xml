@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyhb.mapper.AppletmallcategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.gyhb.entity.Appletmallcategory" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" property="id" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Sort" property="sort" jdbcType="INTEGER" />
+    <result column="ClassificationLevel" property="classificationlevel" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="DATE" />
+    <result column="UpdateTime" property="updatetime" jdbcType="DATE" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="IsDeleted" property="isdeleted" jdbcType="INTEGER" />
+    <result column="AddInfo0" property="addinfo0" jdbcType="VARCHAR" />
+    <result column="AddInfo1" property="addinfo1" jdbcType="VARCHAR" />
+    <result column="AddInfo2" property="addinfo2" jdbcType="VARCHAR" />
+    <result column="AddInfo3" property="addinfo3" jdbcType="VARCHAR" />
+    <result column="AddInfo4" property="addinfo4" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

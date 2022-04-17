@@ -1,6 +1,5 @@
 package com.gyhb.service.serviceImpl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.gyhb.entity.Appletuser;
 import com.gyhb.entity.bo.UserInfoVo;
 import com.gyhb.entity.bo.UserVo;
