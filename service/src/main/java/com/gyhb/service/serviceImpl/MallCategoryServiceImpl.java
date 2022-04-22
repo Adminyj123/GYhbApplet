@@ -3,17 +3,21 @@ package com.gyhb.service.serviceImpl;
 import com.alibaba.fastjson.JSON;
 import com.gyhb.entity.Appletfeedback;
 import com.gyhb.entity.Appletmallcategory;
+import com.gyhb.entity.Appletuser;
 import com.gyhb.mapper.AppletfeedbackMapper;
 import com.gyhb.mapper.AppletmallcategoryMapper;
 import com.gyhb.service.MallCategoryService;
 import com.gyhb.service.WebSocket;
 import com.gyhb.utils.utils.IMOOCJSONResult;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,5 +58,13 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
         }
+    }
+
+    @Override
+    public List<Appletmallcategory> queryMallCategory() {
+            List<Appletmallcategory> res = new ArrayList<Appletmallcategory>();
+            res = appletmallcategoryMapper.selectAll();
+
+        return res;
     }
 }

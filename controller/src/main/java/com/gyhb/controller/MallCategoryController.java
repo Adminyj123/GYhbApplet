@@ -8,10 +8,9 @@ import com.gyhb.utils.utils.IMOOCJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "商城列表", tags = {"商城列表相关接口"})
 @RestController
@@ -27,6 +26,12 @@ public class MallCategoryController {
         IMOOCJSONResult res= mallCategoryService.addMallCategory(mallcategory);
 
         return res;
+    }
+
+    @ApiOperation(value="查询商城列表",notes = "查询商城列表",httpMethod = "GET")
+    @GetMapping("/queryMallCategory")
+    public List<Appletmallcategory> queryMallCategory(){
+        return mallCategoryService.queryMallCategory();
     }
 
 

@@ -11,4 +11,9 @@ public interface MallCategoryService {
      * 新增商品列表
      */
     public IMOOCJSONResult addMallCategory(Appletmallcategory appletmallcategory);
+
+    /**
+     * 查询商品列表
+     */
+    public List<Appletmallcategory> queryMallCategory();
 }
