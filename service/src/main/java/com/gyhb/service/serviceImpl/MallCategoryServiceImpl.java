@@ -1,5 +1,6 @@
 package com.gyhb.service.serviceImpl;
 
+import com.alibaba.fastjson.JSON;
 import com.gyhb.entity.Appletfeedback;
 import com.gyhb.entity.Appletmallcategory;
 import com.gyhb.mapper.AppletfeedbackMapper;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MallCategoryServiceImpl implements MallCategoryService {
@@ -44,7 +46,10 @@ public class MallCategoryServiceImpl implements MallCategoryService {
 
         int i = appletmallcategoryMapper.insert(rel);
         if (i>0){
-            webSocket.sendMessage(rel.toString());
+            List<Appletmallcategory> re = appletmallcategoryMapper.selectAll();
+            String respo = JSON.toJSONString(re);
+//            webSocket.sendMessage(rel.toString());
+            webSocket.sendMessage(respo);
             return IMOOCJSONResult.ok();
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
