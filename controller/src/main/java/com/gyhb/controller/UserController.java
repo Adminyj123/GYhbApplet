@@ -45,7 +45,7 @@ public class UserController {
 
     @ApiIgnore
     @ApiOperation(value="修改用户信息",notes = "修改用户信息",httpMethod = "POST")
-    @GetMapping("/updateUser")
+    @PostMapping("/updateUser")
     public IMOOCJSONResult updateUser(@RequestBody Appletuser appletuser){
         if (StringUtils.isBlank(appletuser.getId())) {
             return IMOOCJSONResult.errorMsg("修改用户信息错误：Id不能为空");
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "用户头像修改", notes = "用户头像修改", httpMethod = "GET")
-    @PostMapping("uploadFace")
+    @GetMapping("uploadFace")
     public IMOOCJSONResult uploadFace(
             @ApiParam(name = "userId", value = "用户id", required = true)
             @RequestParam String userId,

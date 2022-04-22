@@ -23,6 +23,9 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
     @Autowired
     private Sid sid;
 
+    @Autowired
+    private RedisOperator redisAgreemetn;
+
     private static final String AGREEMENT_REDIS = "Agreement";//REDIS 中 Agreement  协议
 
     @Override
@@ -51,10 +54,10 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         rel.setSubheading(agreement.getSubheading());
         rel.setCreatetime(new Date());
 
-        int i = agreementMapper.insert(agreement);
+        int i = agreementMapper.insert(rel);
         if (i>0){
-            RedisOperator redisOperator=new RedisOperator();
-            redisOperator.set(AGREEMENT_REDIS+":"+Id, JsonUtils.objectToJson(rel));
+
+            redisAgreemetn.set(AGREEMENT_REDIS+":"+Id, JsonUtils.objectToJson(rel));
             return IMOOCJSONResult.ok(rel);
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
@@ -71,8 +74,8 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
     public IMOOCJSONResult deletAgreement(String id) {
         int num = agreementMapper.deleteByPrimaryKey(id);
         if(num>0){
-            RedisOperator redisOperator = new RedisOperator();
-            redisOperator.del(AGREEMENT_REDIS+":"+id);
+
+            redisAgreemetn.del(AGREEMENT_REDIS+":"+id);
             return IMOOCJSONResult.ok("删除数据成功!");
         }else{
             return IMOOCJSONResult.errorMsg("删除数据失败!");

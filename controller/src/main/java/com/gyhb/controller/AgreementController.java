@@ -24,12 +24,14 @@ public class AgreementController {
     @Autowired
     private AppletAgreementService agreementService;
 
+    @Autowired
+    private RedisOperator redisAgreemetn;
+
     private static final String AGREEMENT_REDIS = "Agreement";//REDIS 中 Agreement  协议
 
     @ApiOperation(value = "获取用户协议", notes = "获取用户协议", httpMethod = "GET")
     @GetMapping("/getAgreement")
     public IMOOCJSONResult getUserAgreement(@RequestParam String id) {
-        RedisOperator redisAgreemetn = new RedisOperator();
         String rul = redisAgreemetn.get(AGREEMENT_REDIS+":"+id);
 
         AppletAgreement agreement = new AppletAgreement();
@@ -42,7 +44,7 @@ public class AgreementController {
     }
 
     @ApiOperation(value = "新增用户协议", notes = "新增用户协议", httpMethod = "POST")
-    @GetMapping("/createAgreement")
+    @PostMapping("/createAgreement")
     public IMOOCJSONResult addAgreement(@RequestBody AppletAgreement appAgreement) {
         if (StringUtils.isBlank(appAgreement.getMaintitle())) {
             return IMOOCJSONResult.errorMsg("主标题不能为空!");
@@ -53,13 +55,12 @@ public class AgreementController {
     }
 
     @ApiOperation(value = "修改用户协议", notes = "修改用户协议", httpMethod = "POST")
-    @GetMapping("/updateAgreement")
+    @PostMapping("/updateAgreement")
     public IMOOCJSONResult updateAgreement(@RequestBody AppletAgreement agreement) {
         String id = agreement.getId();
         if (StringUtils.isBlank(id)) {
             return IMOOCJSONResult.errorMsg("Id不能为空!");
         }else{
-            RedisOperator redisAgreemetn = new RedisOperator();
             String rul = redisAgreemetn.get(AGREEMENT_REDIS+":"+id);
 
             AppletAgreement rel = new AppletAgreement();
