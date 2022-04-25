@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyhb.mapper.AppletmalltracewordMapper" >
+  <resultMap id="BaseResultMap" type="com.gyhb.entity.Appletmalltraceword" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" property="id" jdbcType="VARCHAR" />
+    <result column="Hot" property="hot" jdbcType="VARCHAR" />
+    <result column="Weight" property="weight" jdbcType="VARCHAR" />
+    <result column="QueryName" property="queryname" jdbcType="VARCHAR" />
+    <result column="QueryType" property="querytype" jdbcType="VARCHAR" />
+    <result column="Num" property="num" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="DATE" />
+    <result column="UpdateTime" property="updatetime" jdbcType="DATE" />
+    <result column="Status" property="status" jdbcType="VARCHAR" />
+    <result column="IsDeleted" property="isdeleted" jdbcType="VARCHAR" />
+    <result column="Addinfo0" property="addinfo0" jdbcType="VARCHAR" />
+    <result column="Addinfo1" property="addinfo1" jdbcType="VARCHAR" />
+    <result column="Addinfo2" property="addinfo2" jdbcType="VARCHAR" />
+    <result column="Addinfo3" property="addinfo3" jdbcType="VARCHAR" />
+    <result column="Addinfo4" property="addinfo4" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

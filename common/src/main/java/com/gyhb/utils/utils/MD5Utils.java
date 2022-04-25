@@ -26,4 +26,7 @@ public class MD5Utils {
 			e.printStackTrace();
 		}
 	}
+
+
+
 }

@@ -36,6 +36,11 @@ spring:
     host: 124.222.149.140
     port: 6379
     password: GYhb888!
+#设置默认文件上传大小最大允许为20MB（系统默认为1MB，超出报错）
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
 
 ############################################################
 #
@@ -67,3 +72,16 @@ pagehelper:
   helperDialect: mysql
 #  helperDialect:oracle
   supportMethodsArguments: true
+
+  ############################################################
+  #
+  # 腾讯云COS配置
+  #
+  ############################################################
+
+qcloud:
+  cos:
+    bucket-name: xiangyin-1309666979
+    bucket-region: ap-chengdu
+    secret-key: oMddLmwpQmqd9PTGm10h7F7h01qOYR3P
+    secret-id: AKIDPdcKlvoRouiHYYHkvpSnsgDTTBdnhKgl

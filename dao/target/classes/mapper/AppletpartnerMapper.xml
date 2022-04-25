@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gyhb.mapper.AppletpartnerMapper" >
+  <resultMap id="BaseResultMap" type="com.gyhb.entity.Appletpartner" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" property="id" jdbcType="VARCHAR" />
+    <result column="UserId" property="userid" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="VARCHAR" />
+    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="IDcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="NativePlace" property="nativeplace" jdbcType="VARCHAR" />
+    <result column="Nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="WechatNumber" property="wechatnumber" jdbcType="VARCHAR" />
+    <result column="Telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="AvatarUrl" property="avatarurl" jdbcType="VARCHAR" />
+    <result column="Validflag" property="validflag" jdbcType="VARCHAR" />
+    <result column="Flag" property="flag" jdbcType="VARCHAR" />
+    <result column="AddInfo0" property="addinfo0" jdbcType="VARCHAR" />
+    <result column="AddInfo1" property="addinfo1" jdbcType="VARCHAR" />
+    <result column="AddInfo2" property="addinfo2" jdbcType="VARCHAR" />
+    <result column="AddInfo3" property="addinfo3" jdbcType="VARCHAR" />
+    <result column="AddInfo4" property="addinfo4" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

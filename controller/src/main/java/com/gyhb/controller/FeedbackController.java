@@ -16,6 +16,9 @@ public class FeedbackController {
     @Autowired
     private AppletFeedbackService feedbackService;
 
+
+
+
     @ApiOperation(value="新增反馈信息",notes = "新增反馈信息",httpMethod = "POST")
     @PostMapping("/creatFeedback")
     public IMOOCJSONResult createFeedback(@RequestBody Appletfeedback feedback){
@@ -23,4 +26,6 @@ public class FeedbackController {
 
         return res;
     }
+
+
 }

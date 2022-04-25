@@ -31,6 +31,16 @@ spring:
     max-lifetime: 1800000 # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟
 #    connection-test-query:select 1       mysql 的配置，时测试连接的
     connection-test-query: SELECT 1 from dual
+  redis:
+    database: 0
+    host: 124.222.149.140
+    port: 6379
+    password: GYhb888!
+#设置默认文件上传大小最大允许为20MB（系统默认为1MB，超出报错）
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
 
 ############################################################
 #
@@ -62,3 +72,16 @@ pagehelper:
   helperDialect: mysql
 #  helperDialect:oracle
   supportMethodsArguments: true
+
+  ############################################################
+  #
+  # 腾讯云COS配置
+  #
+  ############################################################
+
+qcloud:
+  cos:
+    bucket-name: xiangyin-1309666979
+    bucket-region: ap-chengdu
+    secret-key: oMddLmwpQmqd9PTGm10h7F7h01qOYR3P
+    secret-id: AKIDPdcKlvoRouiHYYHkvpSnsgDTTBdnhKgl

@@ -1,0 +1,36 @@
+{
+  "groups": [
+    {
+      "name": "qcloud.cos",
+      "type": "com.gyhb.utils.utils.COSConfig",
+      "sourceType": "com.gyhb.utils.utils.COSConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "qcloud.cos.bucket-name",
+      "type": "java.lang.String",
+      "description": "存储桶的名称",
+      "sourceType": "com.gyhb.utils.utils.COSConfig"
+    },
+    {
+      "name": "qcloud.cos.bucket-region",
+      "type": "java.lang.String",
+      "description": "bucket所在地区区域",
+      "sourceType": "com.gyhb.utils.utils.COSConfig"
+    },
+    {
+      "name": "qcloud.cos.secret-id",
+      "type": "java.lang.String",
+      "description": "腾讯云的SecretId",
+      "sourceType": "com.gyhb.utils.utils.COSConfig"
+    },
+    {
+      "name": "qcloud.cos.secret-key",
+      "type": "java.lang.String",
+      "description": "腾讯云的secretKey",
+      "sourceType": "com.gyhb.utils.utils.COSConfig"
+    }
+  ],
+  "hints": []
+}
