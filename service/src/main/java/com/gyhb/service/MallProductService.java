@@ -12,8 +12,15 @@ public interface MallProductService {
      */
     public IMOOCJSONResult addMallProduct(Appletmallproduct appletmallproduct);
 
-   /* *//**
-     * 查询商品
-     *//*
-    public List<Appletmallproduct> queryMallProduct();*/
+
+    /**
+     * 查询所有商品
+     */
+    public List<Appletmallproduct> queryMallProduct();
+
+    /**
+     * 查询商品详情
+     */
+    public Appletmallproduct queryDetails(String id);
+
 }

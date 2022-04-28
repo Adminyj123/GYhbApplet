@@ -79,5 +79,18 @@ public class MallProductServiceImpl implements MallProductService {
         }
     }
 
+    @Override
+    public List<Appletmallproduct> queryMallProduct() {
+        List<Appletmallproduct> lst = appletmallproductMapper.selectAll();
+        return lst;
+    }
+
+    @Override
+    public Appletmallproduct queryDetails(String id) {
+        Appletmallproduct lst = new Appletmallproduct();
+        lst = appletmallproductMapper.selectByPrimaryKey(id);
+        return lst;
+    }
+
 
 }

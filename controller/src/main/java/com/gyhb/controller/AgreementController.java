@@ -39,6 +39,10 @@ public class AgreementController {
             agreement = JsonUtils.jsonToPojo(rul,AppletAgreement.class);
         }else {
             agreement = agreementService.queryAgreement(id);
+            if (agreement == null){
+                return IMOOCJSONResult.errorMsg("用户id不存在!");
+            }
+
         }
         return IMOOCJSONResult.ok(agreement);
     }
