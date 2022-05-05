@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface AppletparentcategoryService {
 
-    public List<CategoryVo>  queryClassify();
+     List<CategoryVo>  queryClassify();
 
-    public List<Appletparentcategory>  queryAllRootLevelCat();
+     List<Appletparentcategory>  queryAllRootLevelCat();
 
 }

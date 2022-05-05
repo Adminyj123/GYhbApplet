@@ -1,21 +1,15 @@
 package com.gyhb.service.serviceImpl;
 
 import com.alibaba.fastjson.JSON;
-import com.gyhb.entity.Appletfeedback;
 import com.gyhb.entity.Appletmallcategory;
-import com.gyhb.entity.Appletuser;
-import com.gyhb.mapper.AppletfeedbackMapper;
 import com.gyhb.mapper.AppletmallcategoryMapper;
 import com.gyhb.service.MallCategoryService;
 import com.gyhb.service.WebSocket;
 import com.gyhb.utils.utils.IMOOCJSONResult;
-import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,14 +18,17 @@ import java.util.List;
 @Service
 public class MallCategoryServiceImpl implements MallCategoryService {
 
-    @Autowired
-    private AppletmallcategoryMapper appletmallcategoryMapper;
+    private final AppletmallcategoryMapper appletmallcategoryMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
 
-    @Autowired
-    private WebSocket webSocket;
+    private final WebSocket webSocket;
+
+    public MallCategoryServiceImpl(AppletmallcategoryMapper appletmallcategoryMapper, Sid sid, WebSocket webSocket) {
+        this.appletmallcategoryMapper = appletmallcategoryMapper;
+        this.sid = sid;
+        this.webSocket = webSocket;
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
@@ -62,7 +59,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
 
     @Override
     public List<Appletmallcategory> queryMallCategory() {
-            List<Appletmallcategory> res = new ArrayList<Appletmallcategory>();
+            List<Appletmallcategory> res ;
             res = appletmallcategoryMapper.selectAll();
 
         return res;

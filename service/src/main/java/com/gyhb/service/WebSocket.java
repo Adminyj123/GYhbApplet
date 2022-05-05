@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class WebSocket {
     private Session session;
 
-    private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
+    private static final CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void opOpen(Session session){

@@ -8,7 +8,6 @@ import com.gyhb.utils.utils.MobileEmailUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +26,11 @@ public class AddressController {
      * 5. 设置默认地址
      */
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
+
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @ApiOperation(value = "根据用户id查询收货地址列表", notes = "根据用户id查询收货地址列表", httpMethod = "POST")
     @PostMapping("/list")
@@ -80,12 +82,12 @@ public class AddressController {
         String province = addressBO.getProvinces();
         String street = addressBO.getStreet();
         String address = addressBO.getAddress();
-        String detailedaddress = addressBO.getDetailedaddress();
+        String detailedAddress = addressBO.getDetailedaddress();
 
         if (StringUtils.isBlank(province) ||
                 StringUtils.isBlank(street) ||
                 StringUtils.isBlank(address) ||
-                StringUtils.isBlank(detailedaddress)) {
+                StringUtils.isBlank(detailedAddress)) {
             return IMOOCJSONResult.errorMsg("收货地址信息不能为空");
         }
 
@@ -125,8 +127,8 @@ public class AddressController {
     }
 
     @ApiOperation(value = "用户设置默认地址", notes = "用户设置默认地址", httpMethod = "POST")
-    @PostMapping("/setDefalut")
-    public IMOOCJSONResult setDefalut(
+    @PostMapping("/setDefault")
+    public IMOOCJSONResult setDefault(
             @RequestParam String userId,
             @RequestParam String addressId) {
 

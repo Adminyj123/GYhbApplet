@@ -7,7 +7,6 @@ import com.gyhb.utils.utils.IMOOCJSONResult;
 import com.gyhb.utils.utils.JsonUtils;
 import com.gyhb.utils.utils.RedisOperator;
 import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,20 +16,23 @@ import java.util.Date;
 @Service
 public class AppletAgreementServiceImpl implements AppletAgreementService {
 
-    @Autowired
-    private AppletAgreementMapper agreementMapper;
+    private final AppletAgreementMapper agreementMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
 
-    @Autowired
-    private RedisOperator redisAgreemetn;
+    private final RedisOperator redisAgreement;
 
     private static final String AGREEMENT_REDIS = "Agreement";//REDIS 中 Agreement  协议
 
+    public AppletAgreementServiceImpl(AppletAgreementMapper agreementMapper, Sid sid, RedisOperator redisAgreement) {
+        this.agreementMapper = agreementMapper;
+        this.sid = sid;
+        this.redisAgreement = redisAgreement;
+    }
+
     @Override
     public AppletAgreement queryAgreement(String id) {
-        AppletAgreement agreement = new AppletAgreement();
+        AppletAgreement agreement ;
         agreement = agreementMapper.selectByPrimaryKey(id);
         return agreement;
     }
@@ -57,7 +59,7 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         int i = agreementMapper.insert(rel);
         if (i>0){
 
-            redisAgreemetn.set(AGREEMENT_REDIS+":"+Id, JsonUtils.objectToJson(rel));
+            redisAgreement.set(AGREEMENT_REDIS+":"+Id, JsonUtils.objectToJson(rel));
             return IMOOCJSONResult.ok(rel);
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
@@ -71,11 +73,11 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
     }
 
     @Override
-    public IMOOCJSONResult deletAgreement(String id) {
+    public IMOOCJSONResult deleteAgreement(String id) {
         int num = agreementMapper.deleteByPrimaryKey(id);
         if(num>0){
 
-            redisAgreemetn.del(AGREEMENT_REDIS+":"+id);
+            redisAgreement.del(AGREEMENT_REDIS+":"+id);
             return IMOOCJSONResult.ok("删除数据成功!");
         }else{
             return IMOOCJSONResult.errorMsg("删除数据失败!");

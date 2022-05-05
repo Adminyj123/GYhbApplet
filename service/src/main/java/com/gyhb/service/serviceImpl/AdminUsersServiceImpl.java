@@ -6,7 +6,6 @@ import com.gyhb.service.AdminUsersService;
 import com.gyhb.utils.utils.IMOOCJSONResult;
 import com.gyhb.utils.utils.MD5Utils;
 import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +17,14 @@ import java.util.List;
 @Service
 public class AdminUsersServiceImpl implements AdminUsersService {
 
-    @Autowired
-    private AdminUsersMapper adminUsersMapper;
+    private final AdminUsersMapper adminUsersMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
+
+    public AdminUsersServiceImpl(AdminUsersMapper adminUsersMapper, Sid sid) {
+        this.adminUsersMapper = adminUsersMapper;
+        this.sid = sid;
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)  //如果存在一个事务，则支持当前事务。如果没有事务则开启。
     @Override
@@ -73,28 +75,25 @@ public class AdminUsersServiceImpl implements AdminUsersService {
 
         AdminUsers result = adminUsersMapper.selectOneByExample(userExample);
 
-        return result == null ? false : true;
+        return result != null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public AdminUsers queryUserForLogin(String username, String userpwd) {
+    public AdminUsers queryUserForLogin(String username, String userPwd) {
 
         Example userExample = new Example(AdminUsers.class);
         Example.Criteria userCriteria = userExample.createCriteria();
 
         userCriteria.andEqualTo("username", username);
-        userCriteria.andEqualTo("userpwd", userpwd);
+        userCriteria.andEqualTo("userpwd", userPwd);
 
-        AdminUsers result = adminUsersMapper.selectOneByExample(userExample);
-
-        return result;
+        return adminUsersMapper.selectOneByExample(userExample);
     }
 
     @Override
     public List<AdminUsers> queryAll() {
-        List<AdminUsers> res = adminUsersMapper.selectAll();
-        return res;
+        return adminUsersMapper.selectAll();
     }
 
 

@@ -23,4 +23,14 @@ public interface MallProductService {
      */
     public Appletmallproduct queryDetails(String id);
 
+    /**
+     * 修改商品详情
+     */
+    public IMOOCJSONResult updateMallProduct(Appletmallproduct appletmallproduct);
+
+    /**
+     * 删除商品详情
+     */
+    public int deleteMallProduct(String id);
+
 }

@@ -7,7 +7,6 @@ import com.gyhb.service.AddressService;
 import com.gyhb.utils.utils.YesOrNo;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +17,15 @@ import java.util.List;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    @Autowired
-    private AppletaddressMapper addressMapper;
+    private final AppletaddressMapper addressMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
+
+    public AddressServiceImpl(AppletaddressMapper addressMapper, Sid sid) {
+        this.addressMapper = addressMapper;
+        this.sid = sid;
+    }
+
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -39,9 +42,9 @@ public class AddressServiceImpl implements AddressService {
     public void addNewUserAddress(AddressBO addressBO) {
 
         // 1. 判断当前用户是否存在地址，如果没有，则新增为‘默认地址’
-        Integer isDefault = 0;
+        int isDefault = 0;
         List<Appletaddress> addressList = this.queryAll(addressBO.getUserid());
-        if (addressList == null || addressList.isEmpty() || addressList.size() == 0) {
+        if (addressList == null || addressList.isEmpty() || addressList.size() == '0') {
             isDefault = 1;
         }
 
@@ -52,7 +55,7 @@ public class AddressServiceImpl implements AddressService {
         BeanUtils.copyProperties(addressBO, newAddress);
 
         newAddress.setId(addressId);
-        newAddress.setFlag(isDefault.toString());
+        newAddress.setFlag(Integer.toString(isDefault));
         newAddress.setCreatedTime(new Date());
         newAddress.setUpdatedTime(new Date());
 
@@ -109,7 +112,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public Appletaddress queryUserAddres(String userId, String addressId) {
+    public Appletaddress queryUserAddress(String userId, String addressId) {
 
         Appletaddress singleAddress = new Appletaddress();
         singleAddress.setId(addressId);

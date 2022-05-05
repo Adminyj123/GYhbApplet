@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
@@ -22,18 +21,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @Api(value="用户信息",tags = {"用户信息的相关接口"})
 @RestController
 @RequestMapping("users")
 public class UserController {
 
-    @Autowired
-    private AppletUserService userService;
+    private final AppletUserService userService;
 
-    @Autowired
-    private FileUpload fileUpload;
+    private final FileUpload fileUpload;
+
+    public UserController(AppletUserService userService, FileUpload fileUpload, RedisOperator redisOperator) {
+        this.userService = userService;
+        this.fileUpload = fileUpload;
+        this.redisOperator = redisOperator;
+    }
 
     @ApiIgnore
     @ApiOperation(value="根据微信号查询用户信息",notes = "根据微信号查询用户信息",httpMethod = "GET")
@@ -199,8 +201,7 @@ public class UserController {
         return IMOOCJSONResult.ok();
     }
 
-    @Autowired
-    private RedisOperator redisOperator;
+    private final RedisOperator redisOperator;
 
     @ApiIgnore
     @ApiOperation(value="测试redis",notes = "测试redis",httpMethod = "GET")

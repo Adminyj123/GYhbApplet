@@ -1,15 +1,11 @@
 package com.gyhb.service.serviceImpl;
 
-import com.gyhb.entity.AppletAgreement;
 import com.gyhb.entity.Appletfeedback;
 import com.gyhb.mapper.AppletfeedbackMapper;
 import com.gyhb.service.AppletFeedbackService;
 import com.gyhb.service.WebSocket;
 import com.gyhb.utils.utils.IMOOCJSONResult;
-import com.gyhb.utils.utils.JsonUtils;
-import com.gyhb.utils.utils.RedisOperator;
 import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +15,17 @@ import java.util.Date;
 @Service
 public class AppletFeedbackServiceImpl implements AppletFeedbackService {
 
-    @Autowired
-    private AppletfeedbackMapper feedbackMapper;
+    private final AppletfeedbackMapper feedbackMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
 
-    @Autowired
-    private WebSocket webSocket;
+    private final WebSocket webSocket;
+
+    public AppletFeedbackServiceImpl(AppletfeedbackMapper feedbackMapper, Sid sid, WebSocket webSocket) {
+        this.feedbackMapper = feedbackMapper;
+        this.sid = sid;
+        this.webSocket = webSocket;
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override

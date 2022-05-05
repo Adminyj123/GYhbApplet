@@ -39,32 +39,8 @@ public class MallProductServiceImpl implements MallProductService {
         //生产id
         String Id = sid.nextShort();
         rel.setId(Id);
-        rel.setProductname(appletmallproduct.getProductname());
-        rel.setProductnum(appletmallproduct.getProductnum());  //商品编号
-        rel.setCategoryid(appletmallproduct.getCategoryid());  //商品类别id
-        rel.setTitle(appletmallproduct.getTitle());
-        rel.setDetail(appletmallproduct.getDetail());          //商品详情
-        rel.setProductexplain(appletmallproduct.getProductexplain()); //商品本身说明/备注
-        rel.setCoverimg(appletmallproduct.getCoverimg());      //封面图
-        rel.setRecommendreason(appletmallproduct.getRecommendreason()); //推荐理由
-        rel.setProductattribute(appletmallproduct.getProductattribute()); //商品属性/规格
-        rel.setIshot(appletmallproduct.getIshot());            //热销商品
-        rel.setProductstock(appletmallproduct.getProductstock()); //库存
-        rel.setShelftime(appletmallproduct.getShelftime());    //上架时间
-        rel.setOffshelftime(appletmallproduct.getOffshelftime()); //下架时间
-        rel.setSaledeadline(appletmallproduct.getSaledeadline());  //出售截至时间
-        rel.setAmount(appletmallproduct.getAmount());              //商品新价格
-        rel.setOldamount(appletmallproduct.getOldamount());        //商品老价格
-        rel.setPayamount(appletmallproduct.getPayamount());        //实际支付价格
-        rel.setCouponid(appletmallproduct.getCouponid());          //优惠券id
-        rel.setShopid(appletmallproduct.getShopid());              //商家id 京东，淘宝id
-        rel.setCommissionrate(appletmallproduct.getCommissionrate()); //佣金比例
-        rel.setAttachments(appletmallproduct.getAttachments());    //附件
-        rel.setCourseid(appletmallproduct.getCourseid());          //负责人
-        rel.setProgramme(appletmallproduct.getProgramme());        //复制，粘贴内容
-        rel.setCourseid(appletmallproduct.getCourseid());          //教程模板ID
+        rel = fz(appletmallproduct);
         rel.setCreattime(new Date());
-        rel.setUpdatetime(new Date());
         rel.setStatus("0");
         rel.setIsdeleted("0");
 
@@ -89,6 +65,59 @@ public class MallProductServiceImpl implements MallProductService {
     public Appletmallproduct queryDetails(String id) {
         Appletmallproduct lst = new Appletmallproduct();
         lst = appletmallproductMapper.selectByPrimaryKey(id);
+        return lst;
+    }
+
+    @Override
+    public IMOOCJSONResult updateMallProduct(Appletmallproduct appletmallproduct) {
+        Appletmallproduct rel = fz(appletmallproduct);
+
+        int i = appletmallproductMapper.updateByPrimaryKey(rel);
+        if (i>0){
+            List<Appletmallproduct> re = appletmallproductMapper.selectAll();
+            String respo = JSON.toJSONString(re);
+            webSocket.sendMessage(respo);
+            return IMOOCJSONResult.ok();
+        }else {
+            return IMOOCJSONResult.errorMsg("保存数据失败!");
+        }
+    }
+
+    private Appletmallproduct fz(Appletmallproduct appletmallproduct){
+        Appletmallproduct rel = new Appletmallproduct();
+        rel = appletmallproductMapper.selectByPrimaryKey(appletmallproduct.getId());
+
+        rel.setProductname(appletmallproduct.getProductname());
+        rel.setProductnum(appletmallproduct.getProductnum());  //商品编号
+        rel.setCategoryid(appletmallproduct.getCategoryid());  //商品类别id
+        rel.setTitle(appletmallproduct.getTitle());
+        rel.setDetail(appletmallproduct.getDetail());          //商品详情
+        rel.setProductexplain(appletmallproduct.getProductexplain()); //商品本身说明/备注
+        rel.setCoverimg(appletmallproduct.getCoverimg());      //封面图
+        rel.setRecommendreason(appletmallproduct.getRecommendreason()); //推荐理由
+        rel.setProductattribute(appletmallproduct.getProductattribute()); //商品属性/规格
+        rel.setIshot(appletmallproduct.getIshot());            //热销商品
+        rel.setProductstock(appletmallproduct.getProductstock()); //库存
+        rel.setShelftime(appletmallproduct.getShelftime());    //上架时间
+        rel.setOffshelftime(appletmallproduct.getOffshelftime()); //下架时间
+        rel.setSaledeadline(appletmallproduct.getSaledeadline());  //出售截至时间
+        rel.setAmount(appletmallproduct.getAmount());              //商品新价格
+        rel.setOldamount(appletmallproduct.getOldamount());        //商品老价格
+        rel.setPayamount(appletmallproduct.getPayamount());        //实际支付价格
+        rel.setCouponid(appletmallproduct.getCouponid());          //优惠券id
+        rel.setShopid(appletmallproduct.getShopid());              //商家id 京东，淘宝id
+        rel.setCommissionrate(appletmallproduct.getCommissionrate()); //佣金比例
+        rel.setAttachments(appletmallproduct.getAttachments());    //附件
+        rel.setCourseid(appletmallproduct.getCourseid());          //负责人
+        rel.setProgramme(appletmallproduct.getProgramme());        //复制，粘贴内容
+        rel.setCourseid(appletmallproduct.getCourseid());          //教程模板ID
+        rel.setUpdatetime(new Date());
+        return rel;
+    }
+
+    @Override
+    public int deleteMallProduct(String id) {
+        int lst = appletmallproductMapper.deleteByPrimaryKey(id);
         return lst;
     }
 

@@ -3,7 +3,6 @@ package com.gyhb.service.serviceImpl;
 import com.gyhb.entity.bo.Carousel;
 import com.gyhb.mapper.AppletCarouselMapper;
 import com.gyhb.service.CarouselService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +13,11 @@ import java.util.List;
 @Service
 public class CarouselServiceImpl implements CarouselService {
 
-    @Autowired
-    private AppletCarouselMapper carouselMapper;
+    private final AppletCarouselMapper carouselMapper;
+
+    public CarouselServiceImpl(AppletCarouselMapper carouselMapper) {
+        this.carouselMapper = carouselMapper;
+    }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -26,8 +28,6 @@ public class CarouselServiceImpl implements CarouselService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isShow", isShow);
 
-        List<Carousel> result =  carouselMapper.selectByExample(example);
-
-        return result;
+        return carouselMapper.selectByExample(example);
     }
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class mallProductTcp {
     private Session session;
 
-    private static CopyOnWriteArraySet<mallProductTcp> webSocketSet = new CopyOnWriteArraySet<>();
+    private static final CopyOnWriteArraySet<mallProductTcp> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void opOpen(Session session){
@@ -27,9 +27,10 @@ public class mallProductTcp {
         webSocketSet.remove(this);
     }
 
-    @OnMessage
-    public void onMessage(String message){}
+    //@OnMessage
+    //public void onMessage(String message){}
 
+    @OnMessage
     public void sendMessage(String message){
         for(mallProductTcp webSocket: webSocketSet){
             try {

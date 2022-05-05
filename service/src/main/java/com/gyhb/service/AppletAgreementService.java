@@ -5,12 +5,12 @@ import com.gyhb.utils.utils.IMOOCJSONResult;
 
 public interface AppletAgreementService {
 
-    public AppletAgreement queryAgreement(String id);
+     AppletAgreement queryAgreement(String id);
 
-    public IMOOCJSONResult create(AppletAgreement agreement);
+     IMOOCJSONResult create(AppletAgreement agreement);
 
-    public int update(AppletAgreement agreement);
+     int update(AppletAgreement agreement);
 
-    public IMOOCJSONResult deletAgreement(String id);
+     IMOOCJSONResult deleteAgreement(String id);
 
 }

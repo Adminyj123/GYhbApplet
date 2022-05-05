@@ -1,6 +1,5 @@
 package com.gyhb.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -21,8 +20,6 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -43,14 +40,9 @@ import java.util.HashMap;
 @RequestMapping("passport")
 public class PassportController {
 
-    @Autowired
-    private AppletUserService userService;
+    private final AppletUserService userService;
 
-    @Autowired
-    private RedisOperator redis;
-
-    @Autowired
-    private Sid sid;
+    private final RedisOperator redis;
 
     //算法名
     private static final String KEY_ALGORITHM = "AES";//填充
@@ -59,6 +51,11 @@ public class PassportController {
     private static final String KEY_SESSIONKEY_REDIS = "SessionKey";//REDIS 中 SessionKey 文件
     private static Key key;
     private static Cipher cipher;
+
+    public PassportController(AppletUserService userService, RedisOperator redis) {
+        this.userService = userService;
+        this.redis = redis;
+    }
 
     @ApiIgnore
     @ApiOperation(value = "注册获取token", notes = "注册获取token", httpMethod = "GET")
@@ -100,8 +97,7 @@ public class PassportController {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.SECOND, 14 * 24 * 3600);
 
-            String token = "";
-            token = JWT.create()
+            String token = JWT.create()
                     .withHeader(new HashMap<>())  //header
                     .withClaim("openid", result_openid)
 //                    .withClaim("sessionkey",result_key)
@@ -235,8 +231,7 @@ public class PassportController {
             calendar.add(Calendar.SECOND, 14 * 24 * 3600);
 
             //将小程序唯一标识openid包装成toke
-            String token = "";
-            token = JWT.create()
+            String token = JWT.create()
                     .withHeader(new HashMap<>())  //header
                     .withClaim("openid", result_openid)
                     .withExpiresAt(calendar.getTime())  //设置过期时间
@@ -262,9 +257,8 @@ public class PassportController {
         String url2 = appid + "&secret=";
         String url3 = secret + "&js_code=";
         String url4 = js_code + "&grant_type=";
-        String url5 = grant_type;
 
-        return url1 + url2 + url3 + url4 + url5;
+        return url1 + url2 + url3 + url4 + grant_type;
     }
 
 
@@ -371,7 +365,7 @@ public class PassportController {
         httpClient.executeMethod(method);
         String result = method.getResponseBodyAsString();
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject ;
         JSONObject res = JSONObject.parseObject(result);
         //获取errcode的值
         String errcode = res.getString("errcode");
@@ -527,7 +521,8 @@ public class PassportController {
         // 4. 实现注册
         Appletuser userResult = userService.createUser(userBO);
 
-        userResult = setNullProperty(userResult);
+        userResult.setCreatedTime(null);
+        userResult.setUpdatedTime(null);
 
         CookieUtils.setCookie(request, response, "user",
                 JsonUtils.objectToJson(userResult), true);
@@ -559,7 +554,8 @@ public class PassportController {
             return IMOOCJSONResult.errorMsg("用户名或密码不正确");
         }
 
-        userResult = setNullProperty(userResult);
+        userResult.setCreatedTime(null);
+        userResult.setUpdatedTime(null);
 
         CookieUtils.setCookie(request, response, "user",
                 JsonUtils.objectToJson(userResult), true);
@@ -567,11 +563,6 @@ public class PassportController {
         return IMOOCJSONResult.ok(userResult);
     }
 
-    private Appletuser setNullProperty(Appletuser userResult) {
-        userResult.setCreatedTime(null);
-        userResult.setUpdatedTime(null);
-        return userResult;
-    }
 
 
     @ApiIgnore

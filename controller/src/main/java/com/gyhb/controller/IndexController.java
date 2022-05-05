@@ -9,7 +9,6 @@ import com.gyhb.utils.utils.IMOOCJSONResult;
 import com.gyhb.utils.utils.YesOrNo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +21,15 @@ import java.util.List;
 @RequestMapping("index")
 public class IndexController {
 
-    @Autowired
-    private CarouselService carouselService;
+    public final CarouselService carouselService;
+    private final AppletparentcategoryService parentCategory;
 
-    @Autowired
-    private AppletparentcategoryService parentCategory;
+    public IndexController(CarouselService carouselService,AppletparentcategoryService parentCategory){
+        this.carouselService = carouselService;
+        this.parentCategory = parentCategory;
+    }
+
+
 
     @ApiOperation(value = "获取首页轮播图列表", notes = "获取首页轮播图列表", httpMethod = "GET")
     @GetMapping("/carousel")

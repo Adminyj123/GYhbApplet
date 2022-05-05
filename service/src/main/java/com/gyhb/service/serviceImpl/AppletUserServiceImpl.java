@@ -10,7 +10,6 @@ import com.gyhb.utils.utils.JsonUtils;
 import com.gyhb.utils.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +20,17 @@ import java.util.Date;
 @Service
 public class AppletUserServiceImpl implements AppletUserService {
 
-    @Autowired
-    protected AppletuserMapper appletUserMapper;
+    protected final AppletuserMapper appletUserMapper;
 
-    @Autowired
-    protected AppletpasswardMapper appletPasswardMapper;
+    protected final AppletpasswardMapper appletPasswardMapper;
 
-    @Autowired
-    private Sid sid;
+    private final Sid sid;
+
+    public AppletUserServiceImpl(AppletuserMapper appletUserMapper, AppletpasswardMapper appletPasswardMapper, Sid sid) {
+        this.appletUserMapper = appletUserMapper;
+        this.appletPasswardMapper = appletPasswardMapper;
+        this.sid = sid;
+    }
 
 
     /**
@@ -44,7 +46,7 @@ public class AppletUserServiceImpl implements AppletUserService {
 
         Appletuser result = appletUserMapper.selectOneByExample(userExample);
 
-        return result == null ? false : true;
+        return result != null;
     }
 
     /**
@@ -108,9 +110,7 @@ public class AppletUserServiceImpl implements AppletUserService {
         userCriteria.andEqualTo("wechatnumber", wechatNumber);
         userCriteria.andEqualTo("password", password);
 
-        Appletuser result = appletUserMapper.selectOneByExample(userExample);
-
-        return result;
+        return appletUserMapper.selectOneByExample(userExample);
     }
 
     @Override
