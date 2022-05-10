@@ -157,7 +157,7 @@ public class PassportController {
                 ));
 
                 //这里需要将用户信息保存到数据库
-                Appletuser userinfo = userService.addUser(res);
+                Appletuser userinfo = userService.addUser(res,"ceshi");
                 redis.set(KEY_SESSIONKEY_REDIS + ":" + sessionKey, JsonUtils.objectToJson(userinfo));
 
                 JSONObject jsonObject = new JSONObject();
@@ -220,7 +220,7 @@ public class PassportController {
                 ));
 
                 //这里需要将用户信息保存到数据库
-                Appletuser userinfo = userService.addUser(resl);
+                Appletuser userinfo = userService.addUser(resl,result_openid);
                 redis.set( KEY_OPENID_REDIS+":"+ result_openid,JsonUtils.objectToJson(userinfo));
                 jsonObject.put("userinfo", JsonUtils.objectToJson(userinfo));
             }
@@ -404,7 +404,7 @@ public class PassportController {
             ));
 
             //这里需要将用户信息保存到数据库
-            Appletuser userinfo = userService.addUser(resl);
+            Appletuser userinfo = userService.addUser(resl,"ceshi");
             redis.set( KEY_OPENID_REDIS+":"+ "test",JsonUtils.objectToJson(userinfo));
             jsonObject.put("userinfo", JsonUtils.objectToJson(userinfo));
         }

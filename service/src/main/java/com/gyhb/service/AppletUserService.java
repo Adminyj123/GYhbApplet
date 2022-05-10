@@ -29,7 +29,7 @@ public interface AppletUserService {
     /**
      * 登录查询用户
      */
-      Appletuser addUser(String res);
+      Appletuser addUser(String res,String openid);
 
     /**
      * 用户头像更新

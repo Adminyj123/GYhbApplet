@@ -114,14 +114,14 @@ public class AppletUserServiceImpl implements AppletUserService {
     }
 
     @Override
-    public Appletuser addUser(String res) {
+    public Appletuser addUser(String res,String openid) {
         if(StringUtils.isNotBlank(res)){
             UserInfoVo userInfo = JsonUtils.jsonToPojo(res,UserInfoVo.class);
 
             Appletuser appletuser = new Appletuser();
             appletuser.setId(sid.nextShort());
             appletuser.setNickname(userInfo.getNickName());
-            appletuser.setWechatnumber(userInfo.getWatermark().getAppid());
+            appletuser.setWechatnumber(openid);
             appletuser.setSex(userInfo.getGender());
             appletuser.setAvatarurl(userInfo.getAvatarUrl());
             //国家

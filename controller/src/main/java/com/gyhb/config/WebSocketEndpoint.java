@@ -41,7 +41,7 @@ public class WebSocketEndpoint {
 
     @OnMessage
     public void onMessage(String message,Session session) {
-        if(message.equalsIgnoreCase("ping")){
+        if(JSON.parse(message).toString().equalsIgnoreCase("ping")){
             try{
                 Map<String,Object> params = new HashMap<String,Object>();
                 params.put("type","pong");
