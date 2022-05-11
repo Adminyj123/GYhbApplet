@@ -28,9 +28,22 @@ public class MallCategoryController {
 
     @ApiOperation(value="查询商城列表",notes = "查询商城列表",httpMethod = "GET")
     @GetMapping("/queryMallCategory")
-    public List<Appletmallcategory> queryMallCategory(){
-        return mallCategoryService.queryMallCategory();
+    public IMOOCJSONResult queryMallCategory(){
+        return IMOOCJSONResult.ok(mallCategoryService.queryMallCategory()) ;
     }
+
+    @ApiOperation(value="修改商城列表",notes = "修改商城列表",httpMethod = "POST")
+    @PostMapping("/updateMallCategory")
+    public IMOOCJSONResult updateMallCategory(@RequestBody Appletmallcategory mallCategory){
+        return mallCategoryService.updateMallCategory(mallCategory);
+    }
+
+    @ApiOperation(value="删除商城列表",notes = "删除商城列表（批量）",httpMethod = "POST")
+    @PostMapping("/delMallCategory")
+    public IMOOCJSONResult delMallCategory(@RequestParam(value="idList") List<String> idList){
+        return mallCategoryService.delMallCategory(idList);
+    }
+
 
 
 }

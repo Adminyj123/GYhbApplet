@@ -1,6 +1,8 @@
 package com.gyhb.service.serviceImpl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gyhb.entity.Appletmallcategory;
 import com.gyhb.entity.Appletmallproduct;
 import com.gyhb.mapper.AppletmallcategoryMapper;
@@ -10,15 +12,14 @@ import com.gyhb.service.MallProductService;
 import com.gyhb.service.WebSocket;
 import com.gyhb.service.mallProductTcp;
 import com.gyhb.utils.utils.IMOOCJSONResult;
+import com.gyhb.utils.utils.PagedGridResult;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MallProductServiceImpl implements MallProductService {
@@ -46,9 +47,7 @@ public class MallProductServiceImpl implements MallProductService {
 
         int i = appletmallproductMapper.insert(rel);
         if (i>0){
-            List<Appletmallproduct> re = appletmallproductMapper.selectAll();
-            String respo = JSON.toJSONString(re);
-            webSocket.sendMessage(respo);
+            webSockMall();
             return IMOOCJSONResult.ok();
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
@@ -74,9 +73,7 @@ public class MallProductServiceImpl implements MallProductService {
 
         int i = appletmallproductMapper.updateByPrimaryKey(rel);
         if (i>0){
-            List<Appletmallproduct> re = appletmallproductMapper.selectAll();
-            String respo = JSON.toJSONString(re);
-            webSocket.sendMessage(respo);
+            webSockMall();
             return IMOOCJSONResult.ok();
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
@@ -116,9 +113,52 @@ public class MallProductServiceImpl implements MallProductService {
     }
 
     @Override
-    public int deleteMallProduct(String id) {
-        int lst = appletmallproductMapper.deleteByPrimaryKey(id);
-        return lst;
+    public IMOOCJSONResult deleteMallProduct(List<String> lst) {
+        int num = lst.size();
+        if(num >= 1){
+            for (String i: lst) {
+                appletmallproductMapper.deleteByPrimaryKey(i);
+            }
+            webSockMall();
+            return IMOOCJSONResult.ok(String.format("成功删除%d条数据!",num));
+        }else{
+            return IMOOCJSONResult.errorMsg("id不能为空！");
+        }
+    }
+
+    private void webSockMall(){
+        List<Appletmallproduct> re = appletmallproductMapper.selectAll();
+        String resWeb = JSON.toJSONString(re);
+        webSocket.sendMessage(resWeb);
+    }
+
+    @Override
+    public PagedGridResult queryPagedMall(String ProductName, String CategoryId, String status, Integer page, Integer pageSize) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("ProductName", ProductName);
+        map.put("CategoryId", CategoryId);
+        map.put("status", status);
+
+        /**
+         * page: 第几页
+         * pageSize: 每页显示条数
+         */
+        PageHelper.startPage(page, pageSize);
+
+        List<Appletmallproduct> list = appletmallproductMapper.queryMallPage(map);
+
+        return setterPagedGrid(list, page);
+    }
+
+    private PagedGridResult setterPagedGrid(List<?> list, Integer page) {
+        PageInfo<?> pageList = new PageInfo<>(list);
+        PagedGridResult grid = new PagedGridResult();
+        grid.setPage(page);
+        grid.setRows(list);
+        grid.setTotal(pageList.getPages());
+        grid.setRecords(pageList.getTotal());
+        return grid;
     }
 
 

@@ -13,7 +13,17 @@ public interface MallCategoryService {
      IMOOCJSONResult addMallCategory(Appletmallcategory appletmallcategory);
 
     /**
+     * 修改商品列表
+     */
+    IMOOCJSONResult updateMallCategory(Appletmallcategory appletmallcategory);
+
+    /**
      * 查询商品列表
      */
      List<Appletmallcategory> queryMallCategory();
+
+    /**
+     * 修改商品列表
+     */
+    IMOOCJSONResult delMallCategory(List<String> lst);
 }

@@ -94,7 +94,7 @@ public class IMOOCJSONResult {
 
     public IMOOCJSONResult(Object data) {
         this.status = 200;
-        this.msg = "OK";
+        this.msg = "操作成功！";
         this.data = data;
     }
 

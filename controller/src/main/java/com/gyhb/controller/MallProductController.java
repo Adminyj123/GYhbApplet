@@ -3,8 +3,10 @@ package com.gyhb.controller;
 import com.gyhb.entity.Appletmallproduct;
 import com.gyhb.service.MallProductService;
 import com.gyhb.utils.utils.IMOOCJSONResult;
+import com.gyhb.utils.utils.PagedGridResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class MallProductController {
 
     public final MallProductService mallProductService;
+
+    public static final Integer COMMON_PAGE_SIZE = 20;
 
     public MallProductController(MallProductService mallProductService) {
         this.mallProductService = mallProductService;
@@ -33,6 +37,37 @@ public class MallProductController {
         List<Appletmallproduct> lst = mallProductService.queryMallProduct();
         return IMOOCJSONResult.ok(lst) ;
     }
+
+    @ApiOperation(value = "查询所有商品分页信息", notes = "查询所有商品分页信息", httpMethod = "GET")
+    @GetMapping("/allListPage")
+    public IMOOCJSONResult queryPageAll(
+            @ApiParam(name = "ProductName", value = "商品名称", required = false)
+            @RequestParam String ProductName,
+            @ApiParam(name = "CategoryId", value = "商品类别", required = false)
+            @RequestParam String CategoryId,
+            @ApiParam(name = "status", value = "商品状态", required = false)
+            @RequestParam String status,
+            @ApiParam(name = "page", value = "查询下一页的第几页", required = false)
+            @RequestParam Integer page,
+            @ApiParam(name = "pageSize", value = "分页的每一页显示的条数", required = false)
+            @RequestParam Integer pageSize) {
+
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = COMMON_PAGE_SIZE;
+        }
+
+        PagedGridResult grid = mallProductService.queryPagedMall(ProductName, CategoryId, status, page, pageSize);
+
+        return IMOOCJSONResult.ok(grid);
+    }
+
+
+
+
 
     @ApiOperation(value="查询商品详情",notes = "查询商品详情",httpMethod = "GET")
     @GetMapping("/details")
@@ -86,21 +121,12 @@ public class MallProductController {
         return IMOOCJSONResult.ok();
     }
 
-    @ApiOperation(value = "删除商品", notes = "删除商品", httpMethod = "POST")
+    @ApiOperation(value="删除商品",notes = "删除商品（批量）",httpMethod = "POST")
     @PostMapping("/delete")
-    public IMOOCJSONResult delete(
-            @RequestParam String id) {
-
-        if (StringUtils.isBlank(id) ) {
-            return IMOOCJSONResult.errorMsg("id不能为空!");
-        }
-
-        int num = mallProductService.deleteMallProduct(id);
-        if (num > 0){
-            return IMOOCJSONResult.ok();
-        }else{
-            return IMOOCJSONResult.errorMsg("删除数据失败!");
-        }
-
+    public IMOOCJSONResult delMallCategory(@RequestParam(value="idList") List<String> idList){
+        return mallProductService.deleteMallProduct(idList);
     }
+
+
+
 }

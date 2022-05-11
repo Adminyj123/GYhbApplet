@@ -40,4 +40,29 @@
     <result column="Addinfo3" property="addinfo3" jdbcType="VARCHAR" />
     <result column="Addinfo4" property="addinfo4" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="queryMallPage" parameterType="Map" resultType="com.gyhb.entity.Appletmallproduct">
+    SELECT
+    *
+    FROM
+    AppletMallProduct p
+    where
+        1 = 1
+    <if test=" paramsMap.ProductName != null and paramsMap.ProductName != '' ">
+      AND p.ProductName like '%${paramsMap.ProductName}%'
+    </if>
+    <if test=" paramsMap.CategoryId != null and paramsMap.CategoryId != '' ">
+      AND p.CategoryId like '%${paramsMap.CategoryId}%'
+    </if>
+    <if test=" paramsMap.status != null and paramsMap.status != '' ">
+      AND p.status = '${paramsMap.ProductName}'
+    </if>
+
+
+  </select>
+
+
+
+
+
 </mapper>
