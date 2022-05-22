@@ -10,6 +10,8 @@ import com.gyhb.utils.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import java.util.List;
 @RestController
 public class AdminUsersController {
 
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
     private final AdminUsersService addAdminUsers;
 
     public AdminUsersController(AdminUsersService addAdminUsers) {

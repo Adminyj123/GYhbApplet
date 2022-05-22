@@ -8,6 +8,8 @@ import com.gyhb.utils.utils.MobileEmailUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class AddressController {
 
     private final AddressService addressService;
 
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }

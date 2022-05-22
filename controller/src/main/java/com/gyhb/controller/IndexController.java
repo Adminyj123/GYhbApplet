@@ -9,6 +9,8 @@ import com.gyhb.utils.utils.IMOOCJSONResult;
 import com.gyhb.utils.utils.YesOrNo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequestMapping("index")
 public class IndexController {
 
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
     public final CarouselService carouselService;
     private final AppletparentcategoryService parentCategory;
 

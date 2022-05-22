@@ -42,21 +42,32 @@
   </resultMap>
 
   <select id="queryMallPage" parameterType="Map" resultType="com.gyhb.entity.Appletmallproduct">
-    SELECT
-    *
-    FROM
-    AppletMallProduct p
-    where
-        1 = 1
+
+     SELECT * FROM AppletMallProduct p WHERE p.IsDeleted != "1"
     <if test=" paramsMap.ProductName != null and paramsMap.ProductName != '' ">
-      AND p.ProductName like '%${paramsMap.ProductName}%'
+      AND p.Title like '%${paramsMap.ProductName}%'
     </if>
     <if test=" paramsMap.CategoryId != null and paramsMap.CategoryId != '' ">
       AND p.CategoryId like '%${paramsMap.CategoryId}%'
     </if>
     <if test=" paramsMap.status != null and paramsMap.status != '' ">
-      AND p.status = '${paramsMap.ProductName}'
+      AND p.Status = '${paramsMap.status}'
     </if>
+    <if test=" paramsMap.offDate != null and paramsMap.offDate != '' ">
+      AND  SUBSTRING_INDEX(p.OffShelfTime,":",1) = '${paramsMap.offDate}'
+    </if>
+
+  </select>
+
+  <select id="queryMallAll" resultType="com.gyhb.entity.Appletmallproduct">
+
+    SELECT
+    *
+    FROM
+    ( SELECT * FROM AppletMallProduct p WHERE p.IsDeleted != "1"
+    ORDER BY CreatTime ASC ) d
+    ORDER BY
+    d.IsHot DESC , d.creatTime DESC
 
 
   </select>

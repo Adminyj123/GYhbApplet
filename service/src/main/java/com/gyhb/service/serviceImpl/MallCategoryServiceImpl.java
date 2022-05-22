@@ -5,9 +5,11 @@ import com.gyhb.entity.Appletmallcategory;
 import com.gyhb.mapper.AppletmallcategoryMapper;
 import com.gyhb.service.MallCategoryService;
 import com.gyhb.service.WebSocket;
+import com.gyhb.service.mallProductTcp;
 import com.gyhb.utils.utils.IMOOCJSONResult;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,9 @@ public class MallCategoryServiceImpl implements MallCategoryService {
     private final Sid sid;
 
     private final WebSocket webSocket;
+
+    @Autowired
+    private mallProductTcp web;
 
     public MallCategoryServiceImpl(AppletmallcategoryMapper appletmallcategoryMapper, Sid sid, WebSocket webSocket) {
         this.appletmallcategoryMapper = appletmallcategoryMapper;
@@ -70,10 +75,10 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         rel.setClassificationlevel(appletmallcategory.getClassificationlevel());
         rel.setIsdeleted(0);
 
-        int i = appletmallcategoryMapper.insert(rel);
+        int i = appletmallcategoryMapper.updateByPrimaryKey(rel);
         if (i>0){
             webSockMall();
-            return IMOOCJSONResult.ok();
+            return IMOOCJSONResult.ok("操作完成!");
         }else {
             return IMOOCJSONResult.errorMsg("修改数据失败!");
         }

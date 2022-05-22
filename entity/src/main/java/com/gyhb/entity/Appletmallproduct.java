@@ -1,5 +1,7 @@
 package com.gyhb.entity;
 
+import tk.mybatis.mapper.annotation.LogicDelete;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -181,6 +183,7 @@ public class Appletmallproduct {
      * IsDeleted 删除标志位（0：正常，1：删除）
      */
     @Column(name = "IsDeleted")
+    @LogicDelete
     private String isdeleted;
 
     /**

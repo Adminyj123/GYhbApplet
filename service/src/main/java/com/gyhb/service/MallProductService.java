@@ -37,6 +37,6 @@ public interface MallProductService {
      /*
      * 查询商品分页
      * */
-    PagedGridResult queryPagedMall(String ProductName, String CategoryId, String status, Integer page, Integer pageSize);
+    PagedGridResult queryPagedMall(String ProductName, String CategoryId, String status,String offDateStr, Integer page, Integer pageSize);
 
 }

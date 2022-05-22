@@ -1,5 +1,6 @@
 package com.gyhb.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gyhb.entity.Appletmallproduct;
 import com.gyhb.service.MallProductService;
 import com.gyhb.utils.utils.IMOOCJSONResult;
@@ -8,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +27,8 @@ public class MallProductController {
     public MallProductController(MallProductService mallProductService) {
         this.mallProductService = mallProductService;
     }
+
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
 
     @ApiOperation(value="新增商品",notes = "新增商品",httpMethod = "POST")
     @PostMapping("/createMallProduct")
@@ -47,6 +52,9 @@ public class MallProductController {
             @RequestParam String CategoryId,
             @ApiParam(name = "status", value = "商品状态", required = false)
             @RequestParam String status,
+            @ApiParam(name = "offDate", value = "下架时间（时）", required = false)
+            @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+            @RequestParam String offDate,
             @ApiParam(name = "page", value = "查询下一页的第几页", required = false)
             @RequestParam Integer page,
             @ApiParam(name = "pageSize", value = "分页的每一页显示的条数", required = false)
@@ -60,14 +68,18 @@ public class MallProductController {
             pageSize = COMMON_PAGE_SIZE;
         }
 
-        PagedGridResult grid = mallProductService.queryPagedMall(ProductName, CategoryId, status, page, pageSize);
+        String offDateStr = "";
+        if(StringUtils.isNotBlank(offDate)){
+            String rq = offDate.substring(0,10);
+            String xs = offDate.substring(11,13);
+            offDateStr =rq+' '+xs;
+            logger.info(offDateStr);
+        }
+
+        PagedGridResult grid = mallProductService.queryPagedMall(ProductName, CategoryId, status,offDateStr, page, pageSize);
 
         return IMOOCJSONResult.ok(grid);
     }
-
-
-
-
 
     @ApiOperation(value="查询商品详情",notes = "查询商品详情",httpMethod = "GET")
     @GetMapping("/details")

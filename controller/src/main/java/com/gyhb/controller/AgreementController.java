@@ -8,6 +8,8 @@ import com.gyhb.utils.utils.RedisOperator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -17,6 +19,7 @@ import java.util.Date;
 @RequestMapping("Agreement")
 public class AgreementController {
 
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
     private final AppletAgreementService agreementService;
 
     private final RedisOperator redisAgreement;

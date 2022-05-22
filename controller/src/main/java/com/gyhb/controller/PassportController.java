@@ -20,6 +20,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -43,6 +45,7 @@ public class PassportController {
     private final AppletUserService userService;
 
     private final RedisOperator redis;
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
 
     //算法名
     private static final String KEY_ALGORITHM = "AES";//填充
@@ -433,7 +436,7 @@ public class PassportController {
         byte[] encryptedText = null;
         init(keyBytes);
         try {
-            cipher.init(cipher.DECRYPT_MODE, key, new IvParameterSpec(ivs));
+            cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(ivs));
             encryptedText = cipher.doFinal(encryptedData);
         } catch (Exception e) {
             e.printStackTrace();

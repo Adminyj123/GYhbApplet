@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gyhb.mapper.AppletfeedbackMapper" >
-  <resultMap id="BaseResultMap" type="com.gyhb.entity.Appletfeedback" >
+  <resultMap id="BaseResultMap" type="com.gyhb.entity.Appletfeedback">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="Id" property="id" jdbcType="VARCHAR" />
-    <result column="UserId" property="userid" jdbcType="VARCHAR" />
-    <result column="Type" property="type" jdbcType="VARCHAR" />
-    <result column="Phone" property="phone" jdbcType="VARCHAR" />
-    <result column="Info" property="info" jdbcType="VARCHAR" />
-    <result column="PicUrl" property="picurl" jdbcType="VARCHAR" />
-    <result column="Validflag" property="validflag" jdbcType="VARCHAR" />
-    <result column="Time" property="time" jdbcType="DATE" />
-    <result column="Flag" property="flag" jdbcType="VARCHAR" />
-    <result column="AddInfo0" property="addinfo0" jdbcType="VARCHAR" />
-    <result column="AddInfo1" property="addinfo1" jdbcType="VARCHAR" />
-    <result column="AddInfo2" property="addinfo2" jdbcType="VARCHAR" />
-    <result column="AddInfo3" property="addinfo3" jdbcType="VARCHAR" />
-    <result column="AddInfo4" property="addinfo4" jdbcType="VARCHAR" />
-    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
-    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+    <id column="Id" jdbcType="VARCHAR" property="id" />
+    <result column="UserId" jdbcType="VARCHAR" property="userId" />
+    <result column="ProductId" jdbcType="VARCHAR" property="productId" />
+    <result column="Type" jdbcType="VARCHAR" property="type" />
+    <result column="Phone" jdbcType="VARCHAR" property="phone" />
+    <result column="Info" jdbcType="VARCHAR" property="info" />
+    <result column="PicUrl" jdbcType="VARCHAR" property="picUrl" />
+    <result column="ReplyContent" jdbcType="VARCHAR" property="replyContent" />
+    <result column="ReplayUser" jdbcType="VARCHAR" property="replayUser" />
+    <result column="Device" jdbcType="VARCHAR" property="device" />
+    <result column="CorrectionUser" jdbcType="VARCHAR" property="correctionUser" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Status" jdbcType="VARCHAR" property="status" />
+    <result column="CreatTime" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IsDeleted" jdbcType="VARCHAR" property="isDeleted" />
+    <result column="AddInfo0" jdbcType="VARCHAR" property="addInfo0" />
+    <result column="AddInfo1" jdbcType="VARCHAR" property="addInfo1" />
   </resultMap>
+
+  <select id="queryPage" parameterType="Map" resultType="com.gyhb.entity.Appletfeedback">
+
+    SELECT * FROM AppletFeedback p WHERE p.IsDeleted != "1"
+    <if test=" paramsMap.type != null and paramsMap.type != '' ">
+      AND p.Type = '${paramsMap.type}'
+    </if>
+    <if test=" paramsMap.status != null and paramsMap.status != '' ">
+      AND p.Status = '${paramsMap.status}'
+    </if>
+    <if test=" paramsMap.createDate != null and paramsMap.createDate != '' ">
+      AND  DATE_FORMAT(p.creatTime, '%Y-%m-%d') = '${paramsMap.createDate}'
+    </if>
+
+  </select>
+
 </mapper>

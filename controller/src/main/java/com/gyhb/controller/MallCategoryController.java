@@ -5,6 +5,8 @@ import com.gyhb.service.MallCategoryService;
 import com.gyhb.utils.utils.IMOOCJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("mallCategory")
 public class MallCategoryController {
 
+    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
     public final MallCategoryService mallCategoryService;
 
     public MallCategoryController(MallCategoryService mallCategoryService){

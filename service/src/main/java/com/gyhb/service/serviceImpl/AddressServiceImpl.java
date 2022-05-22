@@ -4,8 +4,11 @@ import com.gyhb.entity.Appletaddress;
 import com.gyhb.entity.bo.AddressBO;
 import com.gyhb.mapper.AppletaddressMapper;
 import com.gyhb.service.AddressService;
+import com.gyhb.utils.utils.JsonUtils;
 import com.gyhb.utils.utils.YesOrNo;
 import org.n3r.idworker.Sid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,10 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * @author Admin-Yj
+ */
 @Service
 public class AddressServiceImpl implements AddressService {
 
     private final AppletaddressMapper addressMapper;
+
+    final static Logger logger = LoggerFactory.getLogger(AddressServiceImpl.class);
 
     private final Sid sid;
 
@@ -27,7 +36,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<Appletaddress> queryAll(String userId) {
 
@@ -37,7 +46,7 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.select(ua);
     }
 
-   @Transactional(propagation = Propagation.REQUIRED)
+   @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void addNewUserAddress(AddressBO addressBO) {
 
@@ -58,11 +67,21 @@ public class AddressServiceImpl implements AddressService {
         newAddress.setFlag(Integer.toString(isDefault));
         newAddress.setCreatedTime(new Date());
         newAddress.setUpdatedTime(new Date());
+        newAddress.setId("220521B7PKRYZPDP");
 
-       addressMapper.insert(newAddress);
+        try {
+            int i =addressMapper.insert(newAddress);
+            logger.info("用户地址新增成功 => {}"+ JsonUtils.objectToJson(newAddress));
+        }catch (Exception e){
+            logger.warn("e  => {}"+ e);
+            logger.warn("tostring  => {}"+ e.toString());
+            logger.warn("message  => {}"+ e.getMessage());
+
+
+        }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateAddress(AddressBO addressBO) {
 
@@ -77,7 +96,7 @@ public class AddressServiceImpl implements AddressService {
         addressMapper.updateByPrimaryKeySelective(pendingAddress);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void deleteUserAddress(String userId, String addressId) {
 
@@ -88,7 +107,7 @@ public class AddressServiceImpl implements AddressService {
         addressMapper.delete(address);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public void updateUserAddressToBeDefault(String userId, String addressId) {
 
@@ -110,7 +129,7 @@ public class AddressServiceImpl implements AddressService {
         addressMapper.updateByPrimaryKeySelective(defaultAddress);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public Appletaddress queryUserAddress(String userId, String addressId) {
 

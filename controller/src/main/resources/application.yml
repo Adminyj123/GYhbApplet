@@ -18,7 +18,8 @@ spring:
   datasource: # 数据源的相关配置
     type: com.zaxxer.hikari.HikariDataSource # 数据源类型：HikariCP
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql驱动
-    url: jdbc:mysql://124.222.149.140:3306/Applet?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=CST&testOnBorrow=true&validationQuery=select 1
+    #url: jdbc:mysql://124.222.149.140:3306/Applet?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8&testOnBorrow=true&validationQuery=select 1
+    url: jdbc:mysql://172.17.16.2:3306/Applet?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8&testOnBorrow=true&validationQuery=select 1
     username: root
     password: GYhb888!
   hikari:
@@ -52,8 +53,9 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml # mapper映射文件
   configuration:
     jdbc-type-for-null: 'null' #注意：单引号
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#  configuration:
+  #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 ############################################################
