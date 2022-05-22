@@ -50,8 +50,8 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
 
         Example example = new Example(Appletfeedback.class);
         Example.Criteria criteria= example.createCriteria();
-        criteria.andEqualTo("Id",appletfeedback.getId());
-        criteria.andEqualTo("UserId",appletfeedback.getUserId());
+        criteria.andEqualTo("productId",appletfeedback.getProductId());
+        criteria.andEqualTo("userId",appletfeedback.getUserId());
 
         List<Appletfeedback> lst = feedbackMapper.selectByExample(example);
 
