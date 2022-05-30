@@ -19,7 +19,7 @@ public class CarouselServiceImpl implements CarouselService {
         this.carouselMapper = carouselMapper;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<Carousel> queryAll(Integer isShow) {
 

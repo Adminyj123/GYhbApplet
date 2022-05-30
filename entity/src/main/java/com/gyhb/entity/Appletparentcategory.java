@@ -6,6 +6,10 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author YangJie
+ * @date 2022/5/26 10:47
+*/
 @Table(name = "AppletParentCategory")
 public class Appletparentcategory implements Serializable {
     /**

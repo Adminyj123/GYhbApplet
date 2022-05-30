@@ -1,11 +1,9 @@
 package com.gyhb.service.serviceImpl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gyhb.entity.Appletfeedback;
-import com.gyhb.entity.Appletmallproduct;
 import com.gyhb.mapper.AppletfeedbackMapper;
 import com.gyhb.service.AppletFeedbackService;
 import com.gyhb.service.WebSocket;
@@ -49,6 +47,7 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
     public IMOOCJSONResult create(Appletfeedback appletfeedback) {
 
         Example example = new Example(Appletfeedback.class);
+        example.orderBy("creatTime").desc();
         Example.Criteria criteria= example.createCriteria();
         criteria.andEqualTo("productId",appletfeedback.getProductId());
         criteria.andEqualTo("userId",appletfeedback.getUserId());
@@ -88,24 +87,24 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
                     return IMOOCJSONResult.errorMsg("保存数据失败!");
                 }
             }catch(Exception e){
-                logger.error("新增反馈是保存数据失败 {}",e);
+                logger.error("新增反馈是保存数据失败 {}",
+                        e.getMessage());
                 return IMOOCJSONResult.errorMsg("保存数据失败!");
             }
         }
     }
 
+    /**
+     * @author YangJie
+     * @date 2022/5/30 9:26
+    */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
-    public PagedGridResult queryPaged(String type, String status, String DateStr, Integer page, Integer pageSize) {
-        Map<String, Object> map = new HashMap<>();
+    public PagedGridResult queryPaged(String type, String status, String dateStr, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>(16);
         map.put("type", type);
         map.put("status", status);
-        map.put("creatTime", DateStr);
-
-        /**
-         * page: 第几页
-         * pageSize: 每页显示条数
-         */
+        map.put("creatTime", dateStr);
         PageHelper.startPage(page, pageSize);
 
         List<Appletfeedback> list = feedbackMapper.queryPage(map);
@@ -113,6 +112,12 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
         return setterPagedGrid(list, page);
     }
 
+    /**
+     * 查询分页
+     * @param list list
+     * @param page 页数
+     * @return PagedGridResult
+     */
     private PagedGridResult setterPagedGrid(List<?> list, Integer page) {
         PageInfo<?> pageList = new PageInfo<>(list);
         PagedGridResult grid = new PagedGridResult();
@@ -124,6 +129,11 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
     }
 
 
+    /**
+     * @author YangJie
+     * @date 2022/5/30 9:32
+    */
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public Appletfeedback queryDetails(String id) {
         Appletfeedback lst ;
@@ -131,6 +141,7 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
         return lst;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult updateFeedback(Appletfeedback appletfeedback) {
         Appletfeedback rel = feedbackMapper.selectByPrimaryKey(appletfeedback.getId());
@@ -157,11 +168,13 @@ public class AppletFeedbackServiceImpl implements AppletFeedbackService {
                 return IMOOCJSONResult.errorMsg("保存数据失败!");
             }
         }catch(Exception e){
-            logger.error("修改反馈时保存数据失败 {}",e);
+            logger.error("修改反馈时保存数据失败 {}",
+                    e.getMessage());
             return IMOOCJSONResult.errorMsg("保存数据失败!");
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult deleteFeedback(List<String> lst) {
         int num = lst.size();

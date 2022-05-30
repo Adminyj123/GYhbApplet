@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "商城列表", tags = {"商城列表相关接口"})
 @RestController
 @RequestMapping("mallCategory")
 public class MallCategoryController {
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(MallCategoryController.class);
     public final MallCategoryService mallCategoryService;
 
     public MallCategoryController(MallCategoryService mallCategoryService){

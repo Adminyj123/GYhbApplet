@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+/**
+ * @author Admin-Yj
+ */
 @Service
 public class AppletAgreementServiceImpl implements AppletAgreementService {
 
@@ -22,7 +25,11 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
 
     private final RedisOperator redisAgreement;
 
-    private static final String AGREEMENT_REDIS = "Agreement";//REDIS 中 Agreement  协议
+    /**
+     * AGREEMENT_REDIS
+     * REDIS 中 Agreement  协议
+     */
+    private static final String AGREEMENT_REDIS = "Agreement";
 
     public AppletAgreementServiceImpl(AppletAgreementMapper agreementMapper, Sid sid, RedisOperator redisAgreement) {
         this.agreementMapper = agreementMapper;
@@ -30,6 +37,7 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         this.redisAgreement = redisAgreement;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public AppletAgreement queryAgreement(String id) {
         AppletAgreement agreement ;
@@ -37,13 +45,13 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         return agreement;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult create(AppletAgreement agreement) {
         AppletAgreement rel = new AppletAgreement();
         //生产id
-        String Id = sid.nextShort();
-        rel.setId(Id);
+        String id = sid.nextShort();
+        rel.setId(id);
         rel.setMaintitle(agreement.getMaintitle());
         rel.setBz(agreement.getBz());
         rel.setCategory(agreement.getCategory());
@@ -59,19 +67,20 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         int i = agreementMapper.insert(rel);
         if (i>0){
 
-            redisAgreement.set(AGREEMENT_REDIS+":"+Id, JsonUtils.objectToJson(rel));
+            redisAgreement.set(AGREEMENT_REDIS+":"+id, JsonUtils.objectToJson(rel));
             return IMOOCJSONResult.ok(rel);
         }else {
             return IMOOCJSONResult.errorMsg("保存数据失败!");
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public int update(AppletAgreement agreement) {
         return agreementMapper.updateByPrimaryKey(agreement);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult deleteAgreement(String id) {
         int num = agreementMapper.deleteByPrimaryKey(id);
@@ -84,4 +93,5 @@ public class AppletAgreementServiceImpl implements AppletAgreementService {
         }
 
     }
+
 }

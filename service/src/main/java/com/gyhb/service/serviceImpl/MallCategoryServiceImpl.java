@@ -35,7 +35,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         this.webSocket = webSocket;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult addMallCategory(Appletmallcategory appletmallcategory) {
 
@@ -60,7 +60,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult updateMallCategory(Appletmallcategory appletmallcategory) {
         String id = appletmallcategory.getId();
@@ -84,6 +84,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<Appletmallcategory> queryMallCategory() {
             List<Appletmallcategory> res ;
@@ -91,6 +92,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
         return res;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult delMallCategory(List<String> lst) {
         int num = lst.size();

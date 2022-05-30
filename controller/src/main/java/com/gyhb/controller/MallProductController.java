@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "商品", tags = {"商品相关接口"})
 @RestController
 @RequestMapping("mallProduct")
@@ -46,7 +49,7 @@ public class MallProductController {
     @ApiOperation(value = "查询所有商品分页信息", notes = "查询所有商品分页信息", httpMethod = "GET")
     @GetMapping("/allListPage")
     public IMOOCJSONResult queryPageAll(
-            @ApiParam(name = "ProductName", value = "商品名称", required = false)
+            @ApiParam(name = "ProductName",value = "商品名称", required = false)
             @RequestParam String ProductName,
             @ApiParam(name = "CategoryId", value = "商品类别", required = false)
             @RequestParam String CategoryId,
@@ -96,8 +99,9 @@ public class MallProductController {
             return IMOOCJSONResult.errorMsg("Id不能为空");
         }
 
+        int status = 200;
         IMOOCJSONResult checkRes = checkAppletMall(appletmallproduct);
-        if (checkRes.getStatus() != 200) {
+        if (checkRes.getStatus() != status) {
             return checkRes;
         }
 
@@ -110,18 +114,19 @@ public class MallProductController {
             return IMOOCJSONResult.errorMsg("商品名称不能为空!");
         }
 
+        String zero = "0";
         String amount = p.getAmount().toString();
-        if(amount == null || amount.equals("0")|| amount.equals("")){
+        if(amount == null || zero.equals(amount)|| "".equals(amount)){
             return IMOOCJSONResult.errorMsg("商品新价格不能为空!");
         }
 
         String oldAmount = p.getOldamount().toString();
-        if(oldAmount == null|| oldAmount.equals("0")|| oldAmount.equals("") ){
+        if(oldAmount == null|| zero.equals(oldAmount)|| "".equals(oldAmount)){
             return IMOOCJSONResult.errorMsg("商品老价格不能为空!");
         }
 
         String payAmount = p.getPayamount().toString();
-        if(payAmount == null || payAmount.equals("0")|| payAmount.equals("") ){
+        if(payAmount == null || zero.equals(payAmount)|| "".equals(payAmount)){
             return IMOOCJSONResult.errorMsg("商品实际支付价格不能为空!");
         }
 

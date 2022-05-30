@@ -37,7 +37,7 @@ public class MallProductServiceImpl implements MallProductService {
     @Autowired
     private WebSocket webSocket;
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult addMallProduct(Appletmallproduct appletmallproduct) {
         Appletmallproduct rel = new Appletmallproduct();
@@ -65,12 +65,15 @@ public class MallProductServiceImpl implements MallProductService {
 
     }
 
+
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<Appletmallproduct> queryMallProduct() {
         List<Appletmallproduct> lst = appletmallproductMapper.queryMallAll();
         return lst;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public Appletmallproduct queryDetails(String id) {
         Appletmallproduct lst = new Appletmallproduct();
@@ -78,6 +81,7 @@ public class MallProductServiceImpl implements MallProductService {
         return lst;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult updateMallProduct(Appletmallproduct appletmallproduct) {
         Appletmallproduct rel = fz(appletmallproduct,"1");
@@ -132,6 +136,7 @@ public class MallProductServiceImpl implements MallProductService {
         return rel;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public IMOOCJSONResult deleteMallProduct(List<String> lst) {
         int num = lst.size();
@@ -164,6 +169,19 @@ public class MallProductServiceImpl implements MallProductService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
+    /**
+     * @Description 
+     * @Author  YangJie
+     * @Date  2022/5/26 10:48
+            @Params 
+     * @param ProductName: 
+     * @param CategoryId: 
+     * @param status: 
+     * @param offDateStr: 
+     * @param page: 
+     * @param pageSize: 
+     * @Return com.gyhb.utils.utils.PagedGridResult
+     **/
     public PagedGridResult queryPagedMall(String ProductName, String CategoryId, String status,String offDateStr, Integer page, Integer pageSize) {
 
         Map<String, Object> map = new HashMap<>();

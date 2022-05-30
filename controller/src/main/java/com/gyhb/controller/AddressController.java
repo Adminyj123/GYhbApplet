@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "地址相关", tags = {"地址相关的api接口"})
 @RequestMapping("address")
 @RestController
@@ -30,7 +33,7 @@ public class AddressController {
 
     private final AddressService addressService;
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(AddressController.class);
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }

@@ -18,12 +18,15 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "首页", tags = {"首页展示的相关接口"})
 @RestController
 @RequestMapping("index")
 public class IndexController {
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     public final CarouselService carouselService;
     private final AppletparentcategoryService parentCategory;
 
@@ -31,8 +34,6 @@ public class IndexController {
         this.carouselService = carouselService;
         this.parentCategory = parentCategory;
     }
-
-
 
     @ApiOperation(value = "获取首页轮播图列表", notes = "获取首页轮播图列表", httpMethod = "GET")
     @GetMapping("/carousel")

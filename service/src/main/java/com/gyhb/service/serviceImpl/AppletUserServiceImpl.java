@@ -36,7 +36,7 @@ public class AppletUserServiceImpl implements AppletUserService {
     /**
      * 根据微信号查询数据
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public boolean queryWechatIsExist(String WechatNumber) {
         Example userExample = new Example(Appletuser.class);
@@ -52,7 +52,7 @@ public class AppletUserServiceImpl implements AppletUserService {
     /**
      * 注册
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Appletuser createUser(UserVo userBO) {
         //生产id
@@ -100,7 +100,7 @@ public class AppletUserServiceImpl implements AppletUserService {
     }
 
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public Appletuser queryUserForLogin(String wechatNumber, String password) {
 
@@ -113,6 +113,7 @@ public class AppletUserServiceImpl implements AppletUserService {
         return appletUserMapper.selectOneByExample(userExample);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Appletuser addUser(String res,String openid) {
         if(StringUtils.isNotBlank(res)){
@@ -144,7 +145,7 @@ public class AppletUserServiceImpl implements AppletUserService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public Appletuser updateUserFace(String userId, String faceUrl) {
         Appletuser updateUser = new Appletuser();
@@ -159,7 +160,7 @@ public class AppletUserServiceImpl implements AppletUserService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public Appletuser queryByWx(String wechatNumber) {
         Example userExample = new Example(Appletuser.class);

@@ -14,17 +14,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "用户协议", tags = {"用户协议的相关接口"})
 @RestController
 @RequestMapping("Agreement")
 public class AgreementController {
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(AgreementController.class);
     private final AppletAgreementService agreementService;
 
     private final RedisOperator redisAgreement;
 
-    private static final String AGREEMENT_REDIS = "Agreement";//REDIS 中 Agreement  协议
+    /**
+     * REDIS 中 Agreement  协议
+     */
+    private static final String AGREEMENT_REDIS = "Agreement";
 
     public AgreementController(AppletAgreementService agreementService, RedisOperator redisAgreement) {
         this.agreementService = agreementService;
@@ -67,7 +73,7 @@ public class AgreementController {
             return IMOOCJSONResult.errorMsg("Id不能为空!");
         }else{
             String mainTitle = agreement.getMaintitle();
-            if (mainTitle.equals("")){
+            if (StringUtils.isBlank(mainTitle)){
                 return IMOOCJSONResult.errorMsg("主标题不能为空!");
             }else{
 
@@ -76,7 +82,8 @@ public class AgreementController {
                 String rul = redisAgreement.get(AGREEMENT_REDIS+":"+id);
 
                 AppletAgreement rel ;
-                if(StringUtils.isNotBlank(rul)){  //判断相关的redis 是否不为空
+                //判断相关的redis 是否不为空
+                if(StringUtils.isNotBlank(rul)){
                     rel = JsonUtils.jsonToPojo(rul,AppletAgreement.class);
                 }else {  // redis中没有
                     rel = agreementService.queryAgreement(id);

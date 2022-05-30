@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
- * @author jinbin
- * @date 2018-07-08 22:37
+ * @author Admin-Yj
  */
 @ControllerAdvice
 public class GloablExceptionHandler {
@@ -15,7 +15,7 @@ public class GloablExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Object handleException(Exception e) {
         String msg = e.getMessage();
-        if (msg == null || msg.equals("")) {
+        if (msg == null || "".equals(msg)) {
             msg = "服务器出错";
         }
         JSONObject jsonObject = new JSONObject();

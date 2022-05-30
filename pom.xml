@@ -32,6 +32,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <log4j2.version>2.17.0</log4j2.version>
     </properties>
 
     <packaging>pom</packaging>
@@ -42,11 +43,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
-                <!-- 第一步 移除自带的日志 使用log4j   第二步 在pom。xml中  添加日志框架依赖  -->
-<!--                <exclusion>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
-<!--                </exclusion>-->
+<!--                 第一步 移除自带的日志 使用log4j   第二步 在pom。xml中  添加日志框架依赖  -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -163,7 +164,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
+            <version>1.2.83</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -190,7 +191,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-       <!-- &lt;!&ndash; 第二步 引入日志依赖 抽象层 与 实现层   第三步  在controller中 新建 log4j.properties 并且放到资源文件目录 src/main/resources 下&ndash;&gt;
+        <!-- 第二步 引入日志依赖 抽象层 与 实现层   第三步  在controller中 新建 log4j.properties 并且放到资源文件目录 src/main/resources 下-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -200,7 +201,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.21</version>
-        </dependency>-->
+        </dependency>
 
         <!--websocket-->
         <dependency>

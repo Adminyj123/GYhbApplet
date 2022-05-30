@@ -20,12 +20,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "用户信息", tags = {"用户信息相关的api接口"})
 @RequestMapping("AddMinUsers")
 @RestController
 public class AdminUsersController {
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(AdminUsersController.class);
     private final AdminUsersService addAdminUsers;
 
     public AdminUsersController(AdminUsersService addAdminUsers) {
@@ -38,8 +41,9 @@ public class AdminUsersController {
 
         //判断传入的值是否符合规格
         IMOOCJSONResult userRes = checkUser(adminUsers);
+        int status = 200;
 
-        if (userRes.getStatus() != 200) {
+        if (userRes.getStatus() != status) {
             return userRes;
         }
 
@@ -63,12 +67,16 @@ public class AdminUsersController {
             return IMOOCJSONResult.errorMsg("用户名已经存在");
         }
 
+        int pasLen = 6;
+
         // 2. 密码长度不能少于6位
-        if (password.length() < 6) {
+        if (password.length() < pasLen) {
             return IMOOCJSONResult.errorMsg("密码长度不能少于6");
         }
 
-        if (username.length() > 12) {
+        int userLen = 12;
+
+        if (username.length() > userLen) {
             return IMOOCJSONResult.errorMsg("用户名不能太长");
         }
 
@@ -76,7 +84,9 @@ public class AdminUsersController {
         if (StringUtils.isBlank(mobile)) {
             return IMOOCJSONResult.errorMsg("手机号不能为空");
         }
-        if (mobile.length() != 11) {
+
+        int mobileLen = 11;
+        if (mobile.length() != mobileLen) {
             return IMOOCJSONResult.errorMsg("手机号长度不正确");
         }
         boolean isMobileOk = MobileEmailUtils.checkMobileIsOk(mobile);
@@ -127,11 +137,14 @@ public class AdminUsersController {
 
         //将用户id与用户名 存入token
         String token = JWT.create()
-                .withHeader(new HashMap<>())  //header
+                //header
+                .withHeader(new HashMap<>(16))
                 .withClaim("userid", userid)
                 .withClaim("username", name)
-                .withExpiresAt(calendar.getTime())  //设置过期时间
-                .sign(Algorithm.HMAC256("!34ADAS")); //  签名用的seCert
+                //设置过期时间
+                .withExpiresAt(calendar.getTime())
+                //  签名用的seCert
+                .sign(Algorithm.HMAC256("!34ADAS"));
 
         userLoginBo login = new userLoginBo();
         login.setRole(userResult.getRole());

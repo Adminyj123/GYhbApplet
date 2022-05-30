@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * @author YangJie
+ * @date 2022/5/30 9:38
+*/
 @Component
 @ServerEndpoint("/websocket/{userId}")
 public class WebSocket {
@@ -27,13 +31,11 @@ public class WebSocket {
     public void opOpen(Session session){
         this.session = session;
         webSocketSet.add(this);
-        logger.info("websocket:{}",webSocketSet.size());
     }
 
     @OnClose
     public void onClose(){
         webSocketSet.remove(this);
-        logger.info("websocket:{}",webSocketSet.size());
     }
 
     @OnMessage
@@ -43,20 +45,17 @@ public class WebSocket {
                 Map<String,Object> params = new HashMap<String,Object>();
                 params.put("type","pong");
                 session.getBasicRemote().sendText(JSON.toJSONString(params));
-                logger.info("websocket应答客户端的消息: ： {}",JSON.toJSONString(params));
-
             }catch (Exception e){
                 e.printStackTrace();
-                logger.error("websocket:{}",e);
+                logger.error("websocket:{}",e.getMessage());
             }
         }else{
             for(WebSocket webSocket: webSocketSet){
                 try {
                     webSocket.session.getBasicRemote().sendText(message);
-                    logger.info("websocket ： {}",message);
                 }catch (Exception e){
                     e.printStackTrace();
-                    logger.error("websocket:{}",e);
+                    logger.error("websocket:{}",e.getMessage());
                 }
             }
         }
@@ -71,7 +70,7 @@ public class WebSocket {
                 logger.info(message);
             }catch (Exception e){
                 e.printStackTrace();
-                logger.error("websocket : {}",e);
+                logger.error("websocket : {}",e.getMessage());
             }
         }
     }

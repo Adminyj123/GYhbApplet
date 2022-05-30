@@ -52,8 +52,9 @@ public class AddressServiceImpl implements AddressService {
 
         // 1. 判断当前用户是否存在地址，如果没有，则新增为‘默认地址’
         int isDefault = 0;
+        int size = '0';
         List<Appletaddress> addressList = this.queryAll(addressBO.getUserid());
-        if (addressList == null || addressList.isEmpty() || addressList.size() == '0') {
+        if (addressList == null || addressList.isEmpty() || addressList.size() == size) {
             isDefault = 1;
         }
 
@@ -67,15 +68,17 @@ public class AddressServiceImpl implements AddressService {
         newAddress.setFlag(Integer.toString(isDefault));
         newAddress.setCreatedTime(new Date());
         newAddress.setUpdatedTime(new Date());
-        newAddress.setId("220521B7PKRYZPDP");
 
         try {
             int i =addressMapper.insert(newAddress);
-            logger.info("用户地址新增成功 => {}"+ JsonUtils.objectToJson(newAddress));
+            if (i > 0) {
+                logger.info("用户地址新增成功 => {}"+ JsonUtils.objectToJson(newAddress));
+            }else {
+                logger.error("用户地址新增失败");
+            }
+
         }catch (Exception e){
-            logger.warn("e  => {}"+ e);
-            logger.warn("tostring  => {}"+ e.toString());
-            logger.warn("message  => {}"+ e.getMessage());
+            logger.error("用户地址新增错误  => {}"+ e.getMessage());
 
 
         }

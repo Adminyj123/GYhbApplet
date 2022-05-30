@@ -21,7 +21,7 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(FileController.class);
 
     /**
      * 上传用户头像，默认最大单个文件上传为1M，否则报错,如需修改上传文件大小，需要进行配置spring.servlet.multipart.max-file-size=20MB

@@ -37,6 +37,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value = "注册登录", tags = {"用于注册登录的相关接口"})
 @RestController
 @RequestMapping("passport")
@@ -45,13 +48,28 @@ public class PassportController {
     private final AppletUserService userService;
 
     private final RedisOperator redis;
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(PassportController.class);
 
-    //算法名
-    private static final String KEY_ALGORITHM = "AES";//填充
-    private static final String ALGORITHM_STR = "AES/CBC/PKCS7Padding";//密钥格式
-    private static final String KEY_OPENID_REDIS = "OpenId";//REDIS 中 openid的文件
-    private static final String KEY_SESSIONKEY_REDIS = "SessionKey";//REDIS 中 SessionKey 文件
+    /**
+     * 算法名
+     * 填充
+     */
+    private static final String KEY_ALGORITHM = "AES";
+
+    /**
+     * 密钥格式
+     */
+    private static final String ALGORITHM_STR = "AES/CBC/PKCS7Padding";
+
+    /**
+     * REDIS 中 openid的文件
+     */
+    private static final String KEY_OPENID_REDIS = "OpenId";
+
+    /**
+     * REDIS 中 SessionKey 文件
+     */
+    private static final String KEY_SESSIONKEY_REDIS = "SessionKey";
     private static Key key;
     private static Cipher cipher;
 
@@ -101,11 +119,14 @@ public class PassportController {
             calendar.add(Calendar.SECOND, 14 * 24 * 3600);
 
             String token = JWT.create()
-                    .withHeader(new HashMap<>())  //header
+                    //header
+                    .withHeader(new HashMap<>(16))
                     .withClaim("openid", result_openid)
 //                    .withClaim("sessionkey",result_key)
-                    .withExpiresAt(calendar.getTime())  //设置过期时间
-                    .sign(Algorithm.HMAC256("!34ADAS")); //  签名用的secert
+                    //设置过期时间
+                    .withExpiresAt(calendar.getTime())
+                    //  签名用的secert
+                    .sign(Algorithm.HMAC256("!34ADAS"));
 
 //            String  time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime());
 //            String  time = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(calendar.getTime());
@@ -235,10 +256,13 @@ public class PassportController {
 
             //将小程序唯一标识openid包装成toke
             String token = JWT.create()
-                    .withHeader(new HashMap<>())  //header
+                    //header
+                    .withHeader(new HashMap<>(16))
+                    //设置过期时间
                     .withClaim("openid", result_openid)
-                    .withExpiresAt(calendar.getTime())  //设置过期时间
-                    .sign(Algorithm.HMAC256("!34ADAS")); //  签名用的secert
+                    .withExpiresAt(calendar.getTime())
+                    //  签名用的secert
+                    .sign(Algorithm.HMAC256("!34ADAS"));
 
             jsonObject.put("token", token);
             jsonObject.put("user", "user");
@@ -319,10 +343,13 @@ public class PassportController {
             String open = openid.asString();
 
             token = JWT.create()
-                    .withHeader(new HashMap<>())  //header
+                    //header
+                    .withHeader(new HashMap<>())
+                    //设置过期时间
                     .withClaim("openid", open)
-                    .withExpiresAt(calendar.getTime())  //设置过期时间
-                    .sign(Algorithm.HMAC256("!34ADAS")); //  签名用的secert
+                    .withExpiresAt(calendar.getTime())
+                    //  签名用的secert
+                    .sign(Algorithm.HMAC256("!34ADAS"));
 
             jsonObject.put("token", token);
             jsonObject.put("time", calendar.getTime().getTime());
@@ -455,7 +482,8 @@ public class PassportController {
             keyBytes = temp;
         }
         // 初始化BouncyCastleProvider()
-        Security.addProvider(new BouncyCastleProvider());//转化成AVA的密钥格式
+        //转化成AVA的密钥格式
+        Security.addProvider(new BouncyCastleProvider());
         key = new SecretKeySpec(keyBytes, KEY_ALGORITHM);
         try {
             // 初始化cipher

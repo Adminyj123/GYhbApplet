@@ -11,6 +11,9 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Service
 public class AppletparentcategoryServiceImpl implements AppletparentcategoryService {
 
@@ -20,12 +23,13 @@ public class AppletparentcategoryServiceImpl implements AppletparentcategoryServ
         this.parentCategoryMapper = parentCategoryMapper;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<CategoryVo> queryClassify() {
         return parentCategoryMapper.queryClassify();
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<Appletparentcategory> queryAllRootLevelCat() {
         Example example = new Example(Appletparentcategory.class);

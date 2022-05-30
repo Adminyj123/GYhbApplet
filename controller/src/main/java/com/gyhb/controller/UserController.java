@@ -24,6 +24,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author Admin-Yj
+ */
 @Api(value="用户信息",tags = {"用户信息的相关接口"})
 @RestController
 @RequestMapping("users")
@@ -59,11 +62,10 @@ public class UserController {
         //判断传入的值是否符合规格
         IMOOCJSONResult userRes = checkUser(appletuser);
 
-        if (userRes.getStatus() != 200) {
+        int status = 200;
+        if (userRes.getStatus() != status) {
             return userRes;
         }
-
-//        Appletuser res= userService.queryByWx(appletuser);
 
         return IMOOCJSONResult.ok();
     }

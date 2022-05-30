@@ -14,6 +14,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @Service
 public class AdminUsersServiceImpl implements AdminUsersService {
 
@@ -26,8 +29,16 @@ public class AdminUsersServiceImpl implements AdminUsersService {
         this.sid = sid;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)  //如果存在一个事务，则支持当前事务。如果没有事务则开启。
+
+    //如果存在一个事务，则支持当前事务。如果没有事务则开启。
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
+    /**
+     * 添加用户信息
+     *
+     * @param AdminUsers adminUsers
+     * @return IMOOCJSONResult
+     */
     public IMOOCJSONResult addAdminUsers(AdminUsers adminUsers) {
         //id
         String userid = sid.nextShort();
@@ -64,7 +75,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
         }
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public boolean queryUsernameIsExist(String username) {
 
@@ -78,7 +89,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
         return result != null;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public AdminUsers queryUserForLogin(String username, String userPwd) {
 
@@ -91,6 +102,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
         return adminUsersMapper.selectOneByExample(userExample);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Exception.class)
     @Override
     public List<AdminUsers> queryAll() {
         return adminUsersMapper.selectAll();

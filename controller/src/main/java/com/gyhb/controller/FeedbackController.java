@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Admin-Yj
+ */
 @RestController
 @Api(value = "用户反馈", tags = {"用户反馈的相关接口"})
 @RequestMapping("/feedback")
 public class FeedbackController {
 
-    final static Logger logger = LoggerFactory.getLogger(MallProductController.class);
+    final static Logger logger = LoggerFactory.getLogger(FeedbackController.class);
     private final AppletFeedbackService feedbackService;
 
     public static final Integer COMMON_PAGE_SIZE = 20;
@@ -61,14 +64,14 @@ public class FeedbackController {
             pageSize = COMMON_PAGE_SIZE;
         }
 
-        String DateStr = "";
+        String dateStr = "";
         if(StringUtils.isNotBlank(createDate)){
-             DateStr = createDate.substring(0,10);
+            dateStr = createDate.substring(0,10);
         }else{
-             DateStr = "";
+            dateStr = "";
         }
 
-        PagedGridResult grid = feedbackService.queryPaged(type, status,DateStr, page, pageSize);
+        PagedGridResult grid = feedbackService.queryPaged(type, status,dateStr, page, pageSize);
 
         return IMOOCJSONResult.ok(grid);
     }
